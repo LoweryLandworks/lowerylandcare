@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lowery's Landscaping — loweryslandscape.com
 
-## Getting Started
+Lawn care website for Denton County / North DFW, TX. Next.js App Router +
+Tailwind, deployed on Vercel.
 
-First, run the development server:
+## Before launch — required
+
+1. **Replace placeholder prices** in [lib/services.ts](lib/services.ts) — see
+   the giant TODO block at the top. Every price on the site comes from that
+   one file.
+2. **Replace placeholder testimonials** in
+   [components/Trust.tsx](components/Trust.tsx) (`PLACEHOLDER_REVIEWS`).
+3. **Replace the placeholder owner story** in
+   [app/about/page.tsx](app/about/page.tsx).
+
+## Environment variables (set in Vercel)
+
+| Var | Purpose |
+| --- | --- |
+| `SUPABASE_URL` | Supabase project URL (server-only) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service-role key (server-only) |
+| `RESEND_API_KEY` | Resend API key for lead notification emails |
+| `NOTIFICATION_EMAIL` | Where "New Lawn Care Lead" emails are sent |
+| `RESEND_FROM_EMAIL` | Optional verified sender address |
+| `NEXT_PUBLIC_GTM_ID` | Optional GTM container ID — unset renders no GTM |
+
+## Lead capture
+
+The quote form submits via a server action ([lib/actions.ts](lib/actions.ts))
+that inserts into the shared Supabase `leads` table with
+`source = 'lowerys-landscaping'` (separates Lowery's leads from Dallas Best
+leads), then emails `NOTIFICATION_EMAIL` via Resend. Includes a honeypot field
+and per-phone rate limiting. On success the client pushes a `lead_submitted`
+event to the GTM dataLayer.
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

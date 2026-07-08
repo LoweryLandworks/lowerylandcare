@@ -1,26 +1,35 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Lowery's Landscaping design system — from the business card:
+  - Primary background: light olive/chartreuse
+  - Dark sections: deep forest green
+  - Display type: heavy condensed uppercase (Anton)
+  - Body type: clean geometric sans (DM Sans)
+*/
+@theme {
+  --color-olive: #b7c14e;
+  --color-olive-bright: #c9d360;
+  --color-olive-pale: #eef0d8;
+  --color-forest: #1e3315;
+  --color-forest-deep: #142409;
+  --color-ink: #1a2610;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-anton), sans-serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-olive-pale);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+/* Condensed uppercase display treatment, like the card's wordmark */
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
 }
