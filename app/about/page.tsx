@@ -6,21 +6,21 @@ import { TrustBadges, CallAndQuoteButtons } from "@/components/Trust";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Lowery's Landscaping is a locally owned lawn care company serving Denton County and North DFW, Texas. Straight pricing, reliable crews, yards we're proud of.",
+    "Lowery Landworks is a locally owned lawn care company serving Denton County and North DFW, Texas. Straight pricing, reliable crews, yards we're proud of.",
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-olive">
-        <Sprig className="absolute -right-6 -top-6 h-44 w-44 rotate-12 text-forest/10" />
+      <section className="relative overflow-hidden bg-ink">
+        <Sprig className="absolute -right-6 -top-6 h-44 w-44 rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <h1 className="display text-4xl text-forest sm:text-5xl">
+          <h1 className="display text-4xl text-paper sm:text-5xl">
             Local. For real.
           </h1>
-          <p className="mt-3 max-w-xl text-lg text-forest/90">
-            Lowery&apos;s Landscaping is a locally owned lawn care company
+          <p className="mt-3 max-w-xl text-lg text-paper/80">
+            Lowery Landworks is a locally owned lawn care company
             based in {SITE.areaLabel.split(",")[0]}.
           </p>
         </div>
@@ -33,10 +33,10 @@ export default function AboutPage() {
         */}
         <div className="space-y-5 text-lg leading-relaxed text-ink/85">
           <p>
-            {/* PLACEHOLDER: real owner intro goes here */}
-            Lowery&apos;s Landscaping started the way most good lawn companies
-            do — with one truck, one trailer, and neighbors asking &ldquo;can
-            you do mine too?&rdquo;
+            I&apos;m Mike Lowery — owner, crew, and customer service
+            department. Lowery Landworks started the way most good lawn
+            companies do — with one truck, one trailer, and neighbors asking
+            &ldquo;can you do mine too?&rdquo;
           </p>
           <p>
             We built the business on a simple frustration: too many companies
