@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms of service for Lowery's Landscaping.",
+  description: "Terms of service for Lowery Landworks.",
   alternates: { canonical: "/terms" },
 };
 
