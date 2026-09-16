@@ -170,7 +170,7 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
       <button
         type="submit"
         disabled={pending}
-        className="h-12 w-full rounded-lg bg-forest text-base font-bold text-olive transition-colors hover:bg-forest-deep disabled:opacity-60"
+        className="h-12 w-full rounded-lg bg-lake text-base font-bold text-white transition-colors hover:bg-lake-deep disabled:opacity-60"
       >
         {pending ? "Sending…" : "Get My Free Quote"}
       </button>
