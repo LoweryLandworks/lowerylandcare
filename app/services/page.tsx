@@ -7,7 +7,7 @@ import { TrustBadges, CallAndQuoteButtons } from "@/components/Trust";
 export const metadata: Metadata = {
   title: "Lawn Care Services",
   description:
-    "Lawn mowing, yard cleanup, hedge trimming, mulching, fertilization & weed control, and leaf removal across Denton County, TX. Transparent flat pricing on every job.",
+    "Lawn mowing, yard cleanup, hedge trimming, mulching, fertilization & weed control, and leaf removal across the DFW metroplex, TX. Transparent flat pricing on every job.",
   alternates: { canonical: "/services" },
 };
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { submitQuote } from "@/lib/actions";
-import { SERVICES } from "@/lib/services";
+import { SERVICES, getService } from "@/lib/services";
 import { SITE } from "@/lib/site";
 
 declare global {
@@ -14,8 +15,20 @@ declare global {
 const inputClass =
   "h-12 w-full rounded-lg border-2 border-forest/25 bg-white px-4 text-base text-ink placeholder:text-ink/40 focus:border-forest focus:outline-none";
 
-// Quote-first lead capture: minimal fields, single column, 48px targets.
-export function QuoteForm({ dark = false }: { dark?: boolean }) {
+const FREQUENCIES = [
+  { value: "weekly", label: "Weekly" },
+  { value: "biweekly", label: "Every 2 weeks" },
+  { value: "one-time", label: "One-time / not sure" },
+] as const;
+
+/** Quote-first lead capture: minimal fields, single column, 48px targets. */
+function QuoteFormInner({
+  initialService = "",
+  initialFrequency = "",
+}: {
+  initialService?: string;
+  initialFrequency?: string;
+}) {
   const [pending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +45,8 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
         phone: String(fd.get("phone") || ""),
         address: String(fd.get("address") || ""),
         service: String(fd.get("service") || ""),
+        frequency: String(fd.get("frequency") || "") || undefined,
+        smsConsent: fd.get("smsConsent") === "on",
         company: String(fd.get("company") || ""),
       });
 
@@ -47,20 +62,12 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
     });
   }
 
-  const labelClass = `mb-1.5 block text-sm font-bold ${
-    dark ? "text-olive-pale" : "text-ink"
-  }`;
+  const labelClass = `mb-1.5 block text-sm font-bold text-ink`;
 
   if (done) {
     return (
-      <div
-        className={`rounded-2xl border-2 p-8 text-center ${
-          dark
-            ? "border-olive bg-forest text-olive-pale"
-            : "border-forest bg-white text-ink"
-        }`}
-      >
-        <p className="display text-2xl text-olive">Got it!</p>
+      <div className="rounded-2xl border-2 border-forest bg-white p-8 text-center text-ink">
+        <p className="display text-2xl text-forest">Got it!</p>
         <p className="mt-3 text-base">
           Thanks — we&apos;ll call or text you shortly with your exact price
           and available times.
@@ -141,7 +148,7 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
           id="q-service"
           name="service"
           required
-          defaultValue=""
+          defaultValue={initialService}
           className={`${inputClass} appearance-none`}
         >
           <option value="" disabled>
@@ -158,10 +165,46 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
         </select>
       </div>
 
+      <fieldset>
+        <legend className={labelClass}>How often?</legend>
+        <div className="grid grid-cols-3 gap-2">
+          {FREQUENCIES.map((f) => (
+            <label
+              key={f.value}
+              className="flex min-h-12 cursor-pointer items-center justify-center rounded-lg border-2 border-forest/25 bg-white px-2 py-2.5 text-center text-sm font-bold text-ink transition-colors has-checked:border-forest has-checked:bg-forest has-checked:text-white"
+            >
+              <input
+                type="radio"
+                name="frequency"
+                value={f.value}
+                defaultChecked={initialFrequency === f.value}
+                className="sr-only"
+              />
+              {f.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {/* SMS consent — deliberately unchecked by default */}
+      <label className="flex cursor-pointer items-start gap-3 rounded-lg border-2 border-forest/15 bg-white/60 p-3">
+        <input
+          type="checkbox"
+          name="smsConsent"
+          className="mt-1 h-5 w-5 shrink-0 accent-[#1874B8]"
+        />
+        <span className="text-xs leading-relaxed text-ink/70">
+          Yes, Lowery Landworks can text me about my quote (quote details,
+          scheduling, service updates). Message &amp; data rates may apply.
+          Reply STOP to opt out anytime. Consent is not a condition of
+          purchase.
+        </span>
+      </label>
+
       {error && (
         <p
           role="alert"
-          className={`rounded-lg border-2 border-red-700/40 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800`}
+          className="rounded-lg border-2 border-red-700/40 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800"
         >
           {error}
         </p>
@@ -175,14 +218,36 @@ export function QuoteForm({ dark = false }: { dark?: boolean }) {
         {pending ? "Sending…" : "Get My Free Quote"}
       </button>
 
-      <p
-        className={`text-center text-xs ${
-          dark ? "text-olive-pale/70" : "text-ink/60"
-        }`}
-      >
-        No spam, no pressure. We reply with a real price — locally owned &
+      <p className="text-center text-xs text-ink/60">
+        No spam, no pressure. We reply with a real price — locally owned &amp;
         insured.
       </p>
     </form>
+  );
+}
+
+/**
+ * Reads ?service= (slug or name) and ?frequency= from the URL so the quiz
+ * and service pages can hand off into a pre-filled quote form.
+ */
+function QuoteFormWithParams() {
+  const params = useSearchParams();
+  const rawService = params.get("service") || "";
+  // Accept either a service slug (from the quiz) or a display name.
+  const matched = getService(rawService) ?? SERVICES.find((s) => s.shortName === rawService);
+  const frequency = params.get("frequency") || "";
+  return (
+    <QuoteFormInner
+      initialService={matched ? matched.shortName : ""}
+      initialFrequency={["weekly", "biweekly", "one-time"].includes(frequency) ? frequency : ""}
+    />
+  );
+}
+
+export function QuoteForm() {
+  return (
+    <Suspense>
+      <QuoteFormWithParams />
+    </Suspense>
   );
 }

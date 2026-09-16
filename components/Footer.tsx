@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 import { SERVICES } from "@/lib/services";
+import { CITIES } from "@/lib/cities";
 
 export function Footer() {
   return (
@@ -17,6 +18,12 @@ export function Footer() {
             className="mt-4 inline-block text-lg font-bold text-olive"
           >
             {SITE.phoneDisplay}
+          </a>
+          <a
+            href={`mailto:${SITE.email}`}
+            className="mt-1 block text-sm font-semibold text-olive-pale/80 hover:text-olive"
+          >
+            {SITE.email}
           </a>
         </div>
 
@@ -42,9 +49,16 @@ export function Footer() {
           <p className="display mb-3 text-sm tracking-widest text-olive">
             Service Area
           </p>
-          <ul className="space-y-2 text-sm text-olive-pale/80">
-            {SITE.cities.map((c) => (
-              <li key={c}>{c}, TX</li>
+          <ul className="grid grid-cols-2 gap-x-3 space-y-2 text-sm">
+            {CITIES.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={`/locations/${c.slug}`}
+                  className="text-olive-pale/80 hover:text-olive"
+                >
+                  {c.name}
+                </Link>
+              </li>
             ))}
           </ul>
         </div>

@@ -7,7 +7,7 @@ import { TrustBadges, HowItWorks } from "@/components/Trust";
 export const metadata: Metadata = {
   title: "Get a Free Quote",
   description:
-    "Get an exact lawn care price in 30 seconds — no site-visit sales pitch. Serving Denton, Lewisville, Flower Mound and all of Denton County, TX.",
+    "Get an exact lawn care price in 30 seconds — no site-visit sales pitch. Serving Dallas, Fort Worth, Denton, Plano, Frisco and the whole DFW metroplex, TX.",
   alternates: { canonical: "/quote" },
 };
 
@@ -25,7 +25,7 @@ export default function QuotePage() {
               Get your free quote
             </h1>
             <p className="mt-4 max-w-md text-lg text-olive-pale/85">
-              30 seconds, four fields. We reply with an{" "}
+              30 seconds, a few quick questions. We reply with an{" "}
               <strong className="text-olive-pale">exact price</strong> — and
               that&apos;s the price you pay. No surprise upcharges.
             </p>

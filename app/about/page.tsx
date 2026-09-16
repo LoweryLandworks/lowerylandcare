@@ -6,7 +6,7 @@ import { TrustBadges, CallAndQuoteButtons } from "@/components/Trust";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Lowery Landworks is a locally owned lawn care company serving Denton County and North DFW, Texas. Straight pricing, reliable crews, yards we're proud of.",
+    "Lowery Landworks is a locally owned lawn care company serving Dallas, Fort Worth, and the whole DFW metroplex, Texas. Straight pricing, reliable crews, yards we're proud of.",
   alternates: { canonical: "/about" },
 };
 
@@ -48,7 +48,7 @@ export default function AboutPage() {
           </p>
           <p>
             If you&apos;re in {SITE.cities.slice(0, 3).join(", ")} or anywhere
-            in Denton County, we&apos;d love to earn your yard.
+            in the DFW metroplex, we&apos;d love to earn your yard.
           </p>
         </div>
 
