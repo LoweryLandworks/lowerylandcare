@@ -2,7 +2,7 @@ import { SITE } from "@/lib/site";
 
 // Small trust-signal row placed near CTAs.
 export function TrustBadges({ dark = false }: { dark?: boolean }) {
-  const items = ["Locally owned", "Insured", "Serving the whole DFW"];
+  const items = ["Locally owned", "60-minute quote response", "Serving the whole DFW"];
   return (
     <ul
       className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold ${
@@ -34,11 +34,11 @@ export function HowItWorks({ dark = false }: { dark?: boolean }) {
     },
     {
       title: "We confirm price & time",
-      body: "You get one exact number and a service window that fits your schedule. No visit needed for most quotes.",
+      body: "You get one exact number and a service window that fits your schedule.",
     },
     {
       title: "We show up, you pay after",
-      body: `The crew does the work, you look it over, then you pay exactly what we quoted. That's it.`,
+      body: `The crew does the work, you look it over — if something isn't finished properly, say so before you pay. That's it.`,
     },
   ];
   return (

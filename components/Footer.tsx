@@ -74,6 +74,21 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/commercial" className="text-olive-pale/80 hover:text-olive">
+                Commercial
+              </Link>
+            </li>
+            <li>
+              <Link href="/guides" className="text-olive-pale/80 hover:text-olive">
+                Lawn Guides
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="text-olive-pale/80 hover:text-olive">
+                FAQ
+              </Link>
+            </li>
+            <li>
               <Link href="/quote" className="text-olive-pale/80 hover:text-olive">
                 Get a Quote
               </Link>

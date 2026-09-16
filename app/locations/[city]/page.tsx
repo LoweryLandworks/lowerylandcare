@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CITIES, getCity } from "@/lib/cities";
-import { SERVICES } from "@/lib/services";
+import { SERVICES, getService } from "@/lib/services";
 import { SITE } from "@/lib/site";
 import { Sprig } from "@/components/LeafDeco";
 import {
@@ -74,11 +74,26 @@ export default async function CityPage({ params }: Props) {
         </div>
       </section>
 
-      {/* LOCAL NOTES */}
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <h2 className="display text-3xl text-forest sm:text-4xl">
-          What we see on {c.name} lawns
+      {/* THE LOCAL PROBLEM */}
+      <section className="mx-auto max-w-6xl px-4 pt-14 sm:px-6">
+        <div className="max-w-3xl rounded-2xl border-2 border-bronze/40 bg-bronze/10 p-7 sm:p-8">
+          <h2 className="display text-2xl text-forest sm:text-3xl">
+            The {c.name} yard problem
+          </h2>
+          <p className="mt-3 text-base leading-relaxed text-ink/85">
+            {c.yardProblem}
+          </p>
+        </div>
+      </section>
+
+      {/* WHY US IN THIS CITY */}
+      <section className="mx-auto max-w-6xl px-4 pt-10 sm:px-6">
+        <h2 className="display text-2xl text-forest sm:text-3xl">
+          Why {c.name} chooses Lowery Landworks
         </h2>
+        <p className="mt-3 max-w-3xl text-base leading-relaxed text-ink/85">
+          {c.whyUs}
+        </p>
         <ul className="mt-6 grid gap-5 md:grid-cols-3">
           {c.localNotes.map((note) => (
             <li
@@ -91,24 +106,49 @@ export default async function CityPage({ params }: Props) {
         </ul>
       </section>
 
-      {/* SERVICES */}
+      {/* FEATURED SERVICES WITH LOCAL ANGLE */}
       <section className="bg-paper">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
           <h2 className="display text-3xl text-forest sm:text-4xl">
-            Services in {c.name}
+            What {c.name} books most
           </h2>
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <p className="mt-2 max-w-2xl text-base text-ink/70">
+            Every service comes to your door in {c.name} — no drop-off, no
+            waiting around.
+          </p>
+          <div className="mt-8 grid gap-5 md:grid-cols-3">
+            {c.serviceBlurbs.map((b) => {
+              const s = getService(b.service);
+              if (!s) return null;
+              return (
+                <Link
+                  key={b.service}
+                  href={`/services/${s.slug}`}
+                  className="group rounded-2xl border-2 border-forest/15 bg-white p-6 transition-colors hover:border-forest"
+                >
+                  <h3 className="display text-xl text-forest">
+                    {s.shortName} in {c.name}
+                  </h3>
+                  <p className="mt-2 text-base text-ink/75">{b.blurb}</p>
+                  <span className="mt-4 inline-block text-sm font-bold text-lake underline-offset-4 group-hover:underline">
+                    Details & pricing →
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          <h3 className="display mt-10 text-xl text-forest">
+            Every service we offer in {c.name}
+          </h3>
+          <div className="mt-4 flex flex-wrap gap-3">
             {SERVICES.map((s) => (
               <Link
                 key={s.slug}
                 href={`/services/${s.slug}`}
-                className="group rounded-2xl border-2 border-forest/15 bg-white p-6 transition-colors hover:border-forest"
+                className="rounded-full border-2 border-forest/20 bg-white px-5 py-2.5 text-sm font-bold text-forest hover:border-forest"
               >
-                <h3 className="display text-xl text-forest">{s.shortName}</h3>
-                <p className="mt-2 text-base text-ink/75">{s.blurb}</p>
-                <span className="mt-4 inline-block text-sm font-bold text-lake underline-offset-4 group-hover:underline">
-                  Details & pricing →
-                </span>
+                {s.shortName}
               </Link>
             ))}
           </div>
@@ -122,7 +162,8 @@ export default async function CityPage({ params }: Props) {
             Ready when you are, {c.name}
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base text-olive-pale/85">
-            {c.routeNote} One exact price up front — that&apos;s what you pay.
+            {c.routeNote} One exact price up front — that&apos;s what you
+            pay. We respond to every quote request within 60 minutes.
           </p>
           <div className="mx-auto mt-6 w-fit">
             <CallAndQuoteButtons dark />
@@ -130,7 +171,7 @@ export default async function CityPage({ params }: Props) {
         </div>
       </section>
 
-      {/* AREAS + ZIPS */}
+      {/* AREAS + ZIPS + FAQ */}
       <section className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
         <h2 className="display text-2xl text-forest">
           Neighborhoods we serve in {c.name}
@@ -150,7 +191,7 @@ export default async function CityPage({ params }: Props) {
         </p>
 
         <h2 className="display mt-10 text-2xl text-forest">
-          Common questions in {c.name}
+          {c.name} lawn care FAQ
         </h2>
         <div className="mt-4 max-w-3xl space-y-4">
           {c.faqs.map((f) => (

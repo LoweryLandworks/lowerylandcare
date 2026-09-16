@@ -17,7 +17,7 @@ import { ReferralSection } from "@/components/ReferralSection";
 export const metadata: Metadata = {
   title: "Lowery Landworks — Outdoor Property Maintenance in DFW, TX",
   description:
-    "Outdoor property maintenance across the Dallas–Fort Worth metroplex: mowing, cleanups, hedge trimming, mulch and more. The price we quote is the price you pay — no surprise upcharges. Free quotes: (469) 301-1977.",
+    "Outdoor property maintenance across the Dallas–Fort Worth metroplex: mowing, cleanups, hedge trimming, mulch and more. One exact price confirmed before work starts. Free quotes: (469) 301-1977.",
   alternates: { canonical: "/" },
 };
 
@@ -37,8 +37,9 @@ export default function HomePage() {
           </h1>
           <p className="mt-5 max-w-xl text-lg font-medium text-paper/80 md:text-xl">
             Mowing, cleanups, hedges, mulch & more across the whole DFW
-            metroplex — on your schedule. The price we quote is the price
-            you pay. <strong>No surprise upcharges, ever.</strong>
+            metroplex — for homes and businesses, on your schedule. One
+            exact price, confirmed before we schedule. We reply to every
+            quote request within 60 minutes.
           </p>
           <div className="mt-8 max-w-xl">
             <CallAndQuoteButtons quoteHref="#quote" dark />
@@ -56,8 +57,7 @@ export default function HomePage() {
         </h2>
         <p className="mt-2 max-w-xl text-base text-ink/75">
           Outdoor property maintenance for DFW homes — everything outside
-          your four walls, from one local crew you can actually get on the
-          phone.
+          your four walls, from one local crew.
         </p>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
@@ -87,7 +87,7 @@ export default function HomePage() {
           </h2>
           <p className="mx-auto mt-3 max-w-md text-base text-paper/75">
             Answer three quick questions in plain language — we&apos;ll tell
-            you exactly which service your yard needs and what it costs.
+            you exactly which service your yard needs.
           </p>
           <Link
             href="/find-my-lawn-plan"
@@ -102,35 +102,67 @@ export default function HomePage() {
         <Fern className="absolute -left-10 top-8 h-72 w-48 -rotate-6 text-olive/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
           <h2 className="display max-w-2xl text-3xl text-olive sm:text-4xl md:text-5xl">
-            The price you see is the price you pay.
+            One number, up front.
           </h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <div className="rounded-2xl border-2 border-olive/25 p-6">
               <h3 className="display text-lg text-olive">
-                One number, up front
+                Your exact price first
               </h3>
               <p className="mt-2 text-base text-olive-pale/85">
-                You get your exact price before we schedule anything — not an
+                You get one exact price before we schedule anything — not an
                 &ldquo;estimate&rdquo; that grows once we&apos;re in your yard.
               </p>
             </div>
             <div className="rounded-2xl border-2 border-olive/25 p-6">
               <h3 className="display text-lg text-olive">
-                No surprise upcharges
+                No fine-print add-ons
               </h3>
               <p className="mt-2 text-base text-olive-pale/85">
-                If a job turns out to be more than we quoted, that&apos;s on
-                us. We&apos;ll never hand you a bigger bill than the one you
-                agreed to.
+                The quoted price is the whole price. If anything about your
+                property would change the number, you&apos;ll know before
+                you approve it — not after.
               </p>
             </div>
             <div className="rounded-2xl border-2 border-olive/25 p-6">
-              <h3 className="display text-lg text-olive">Pay after the work</h3>
+              <h3 className="display text-lg text-olive">Look it over first</h3>
               <p className="mt-2 text-base text-olive-pale/85">
-                Look the yard over first. You pay when the work is done and
-                you&apos;re happy with it — not before.
+                Walk the yard when we&apos;re done. If something isn&apos;t
+                finished properly, tell us before you pay.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HOMES + BUSINESSES */}
+      <section className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+        <div className="grid gap-5 md:grid-cols-2">
+          <div className="rounded-2xl bg-forest p-8 text-olive-pale">
+            <h2 className="display text-2xl text-olive">For your home</h2>
+            <p className="mt-2 text-base text-olive-pale/85">
+              Weekly mowing, cleanups, hedges, mulch, and seasonal programs —
+              the yard handled, every week, without you thinking about it.
+            </p>
+            <Link
+              href="/quote?property=home"
+              className="mt-5 inline-flex h-12 items-center rounded-lg bg-olive px-7 text-base font-bold text-forest hover:bg-olive-bright"
+            >
+              Get a Home Quote
+            </Link>
+          </div>
+          <div className="rounded-2xl bg-ink p-8 text-paper">
+            <h2 className="display text-2xl">For your business</h2>
+            <p className="mt-2 text-base text-paper/75">
+              Outdoor maintenance for DFW businesses — tell us about the
+              property for a commercial quote.
+            </p>
+            <Link
+              href="/commercial"
+              className="mt-5 inline-flex h-12 items-center rounded-lg bg-bronze px-7 text-base font-bold text-ink hover:brightness-110"
+            >
+              Commercial Maintenance
+            </Link>
           </div>
         </div>
       </section>
@@ -141,7 +173,7 @@ export default function HomePage() {
           How it works
         </h2>
         <p className="mt-2 max-w-xl text-base text-ink/75">
-          Three steps. No site-visit sales pitch, no contract to sign.
+          Three steps. No estimate range, no chasing us down.
         </p>
         <div className="mt-8">
           <HowItWorks />

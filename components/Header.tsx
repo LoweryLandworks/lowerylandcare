@@ -21,6 +21,12 @@ export function Header() {
           <Link href="/locations" className="hover:text-olive">
             Areas
           </Link>
+          <Link href="/guides" className="hover:text-olive">
+            Guides
+          </Link>
+          <Link href="/faq" className="hover:text-olive">
+            FAQ
+          </Link>
           <Link href="/about" className="hover:text-olive">
             About
           </Link>
@@ -51,6 +57,12 @@ export function Header() {
         </Link>
         <Link href="/locations" className="py-1">
           Areas
+        </Link>
+        <Link href="/guides" className="py-1">
+          Guides
+        </Link>
+        <Link href="/faq" className="py-1">
+          FAQ
         </Link>
         <Link href="/about" className="py-1">
           About
