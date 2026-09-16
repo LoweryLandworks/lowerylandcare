@@ -134,18 +134,14 @@ export function CallAndQuoteButtons({
   dark = false,
 }: {
   quoteHref?: string;
-  /** Set when rendered on a forest-green background. */
+  /** Set when rendered on a dark background. */
   dark?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <a
         href={`tel:${SITE.phoneTel}`}
-        className={`flex h-14 items-center justify-center rounded-lg px-8 text-lg font-bold transition-colors ${
-          dark
-            ? "bg-olive text-forest hover:bg-olive-bright"
-            : "bg-forest text-olive hover:bg-forest-deep"
-        }`}
+        className="flex h-14 items-center justify-center rounded-lg bg-lake px-8 text-lg font-bold text-white transition-colors hover:bg-lake-deep"
       >
         Call Now · {SITE.phoneDisplay}
       </a>
@@ -153,8 +149,8 @@ export function CallAndQuoteButtons({
         href={quoteHref}
         className={`flex h-14 items-center justify-center rounded-lg border-[3px] px-8 text-lg font-bold transition-colors ${
           dark
-            ? "border-olive text-olive hover:bg-olive hover:text-forest"
-            : "border-forest text-forest hover:bg-forest hover:text-olive"
+            ? "border-bronze text-bronze hover:bg-bronze hover:text-ink"
+            : "border-ink text-ink hover:bg-ink hover:text-paper"
         }`}
       >
         Get a Free Quote
