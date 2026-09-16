@@ -45,7 +45,7 @@ export const SERVICES: Service[] = [
     blurb:
       "Weekly or biweekly mowing with crisp edges and a clean blow-off — the yard looks finished, every time.",
     description:
-      "A mowed lawn isn't the same as a finished lawn. Every mowing visit from Lowery's includes edging along your driveway and walkways, string trimming around fences and beds, and blowing off every hard surface before we leave. You pick weekly or biweekly — we show up on your schedule, same crew, same standard.",
+      "A mowed lawn isn't the same as a finished lawn. Every mowing visit from Lowery Landworks includes edging along your driveway and walkways, string trimming around fences and beds, and blowing off every hard surface before we leave. You pick weekly or biweekly — we show up on your schedule, same crew, same standard.",
     included: [
       "Mow all turf areas at the right height for the season",
       "Edge driveways, sidewalks, and curbs",
@@ -246,7 +246,7 @@ export const SERVICES: Service[] = [
     faqs: [
       {
         q: "How many leaf cleanups do I need per season?",
-        a: "Most Denton County yards do best with 2–3 cleanups between November and January, depending on your trees. One big final cleanup also works if you'd rather wait.",
+        a: "Most North Texas yards do best with 2–3 cleanups between November and January, depending on your trees. One big final cleanup also works if you'd rather wait.",
       },
       {
         q: "Do you clean gutters too?",

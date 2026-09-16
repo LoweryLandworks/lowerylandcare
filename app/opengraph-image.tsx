@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // OG image placeholder — generated at build time in brand colors.
 // Swap for a real photo-based OG image when one exists.
-export const alt = "Lowery Landworks — Lawn Care in Denton County, TX";
+export const alt = "Lowery Landworks — Lawn Care in DFW, TX";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -55,7 +55,7 @@ export default function OgImage() {
             borderRadius: 12,
           }}
         >
-          Lawn Care · Denton County, TX · (682) 390-5608
+          Lawn Care · DFW, TX · (469) 301-1977
         </div>
       </div>
     ),

@@ -21,11 +21,11 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domain),
   title: {
-    default: "Lowery Landworks — Lawn Care in Denton County, TX",
+    default: "Lowery Landworks — Lawn Care in DFW (Dallas–Fort Worth), TX",
     template: "%s | Lowery Landworks",
   },
   description:
-    "Locally owned lawn care serving Denton, Lewisville, Flower Mound and all of Denton County. Transparent pricing — the price we quote is the price you pay. Call (682) 390-5608.",
+    "Locally owned lawn care serving Dallas, Fort Worth, Denton, Plano, Frisco and the whole DFW metroplex. Transparent pricing — the price we quote is the price you pay. Call (469) 301-1977.",
   openGraph: {
     siteName: SITE.name,
     type: "website",
@@ -44,7 +44,7 @@ const localBusinessJsonLd = {
   telephone: SITE.phoneTel,
   serviceType: "Lawn Care",
   description:
-    "Locally owned lawn care and landscaping serving Denton County and North DFW, Texas.",
+    "Locally owned lawn care and landscaping serving the Dallas–Fort Worth metroplex, Texas.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Denton",

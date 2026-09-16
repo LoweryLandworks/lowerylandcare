@@ -2,7 +2,7 @@ import { SITE } from "@/lib/site";
 
 // Small trust-signal row placed near CTAs.
 export function TrustBadges({ dark = false }: { dark?: boolean }) {
-  const items = ["Locally owned", "Insured", "Serving Denton County"];
+  const items = ["Locally owned", "Insured", "Serving the whole DFW"];
   return (
     <ul
       className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold ${
@@ -64,67 +64,40 @@ export function HowItWorks({ dark = false }: { dark?: boolean }) {
 }
 
 /*
- * ═══════════════════════════════════════════════════════════════
- * PLACEHOLDER TESTIMONIALS — replace with real customer reviews
- * before launch. Names, cities, and quotes below are invented.
- * ═══════════════════════════════════════════════════════════════
+ * REVIEWS — no fake reviews here. This section renders an honest
+ * "reviews are on the way" card until real Google reviews exist.
+ * When the owner has genuine reviews, replace ReviewsComingSoon with a
+ * real Reviews list (names, suburbs, quotes — all verifiable).
  */
-const PLACEHOLDER_REVIEWS = [
-  {
-    name: "Maria G.",
-    city: "Denton",
-    quote:
-      "They quoted me a price over text, showed up when they said they would, and charged exactly that. Yard looks great every single week.",
-  },
-  {
-    name: "James R.",
-    city: "Lewisville",
-    quote:
-      "Had a full spring cleanup done. One flat price up front, no 'we found more work' phone call halfway through. Refreshing.",
-  },
-  {
-    name: "Kelsey T.",
-    city: "Flower Mound",
-    quote:
-      "Easy to reach, easy to schedule, and the edging is the sharpest on the street. My neighbors have already asked who does our lawn.",
-  },
-  {
-    name: "Dan W.",
-    city: "Little Elm",
-    quote:
-      "I travel for work and needed a crew I don't have to babysit. They just handle it — gate closed, clippings gone, no surprises on the bill.",
-  },
-];
-
-export function Reviews() {
+export function ReviewsComingSoon() {
   return (
-    <div className="grid gap-5 sm:grid-cols-2">
-      {PLACEHOLDER_REVIEWS.map((r) => (
-        <figure
-          key={r.name}
-          className="rounded-2xl border-2 border-forest/15 bg-white p-6"
-        >
-          <div className="flex gap-1 text-olive" aria-label="5 star review">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <svg
-                key={i}
-                viewBox="0 0 16 16"
-                className="h-4 w-4"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path d="M8 0 10 5.5 16 6l-4.5 3.8L13 16 8 12.8 3 16l1.5-6.2L0 6l6-.5Z" />
-              </svg>
-            ))}
-          </div>
-          <blockquote className="mt-3 text-base text-ink/85">
-            &ldquo;{r.quote}&rdquo;
-          </blockquote>
-          <figcaption className="mt-3 text-sm font-bold text-ink">
-            {r.name} · {r.city}, TX
-          </figcaption>
-        </figure>
-      ))}
+    <div className="mx-auto max-w-2xl rounded-2xl border-2 border-forest/15 bg-white p-8 text-center">
+      <div
+        className="flex justify-center gap-1 text-olive/30"
+        aria-hidden="true"
+      >
+        {Array.from({ length: 5 }).map((_, i) => (
+          <svg
+            key={i}
+            viewBox="0 0 16 16"
+            className="h-6 w-6"
+            fill="currentColor"
+          >
+            <path d="M8 0 10 5.5 16 6l-4.5 3.8L13 16 8 12.8 3 16l1.5-6.2L0 6l6-.5Z" />
+          </svg>
+        ))}
+      </div>
+      <h3 className="display mt-4 text-2xl text-forest">
+        Our reviews are on the way
+      </h3>
+      <p className="mx-auto mt-3 max-w-md text-base text-ink/75">
+        We&apos;re a local crew building our name one yard at a time — every
+        real review we earn goes right here. Had work done? Ask us for the
+        Google review link after your visit.
+      </p>
+      <div className="mt-6 flex justify-center">
+        <CallAndQuoteButtons />
+      </div>
     </div>
   );
 }

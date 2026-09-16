@@ -19,8 +19,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = getService(slug);
   if (!service) return {};
   return {
-    title: `${service.name} in Denton County, TX`,
-    description: `${service.blurb} Serving ${SITE.cities.slice(0, 4).join(", ")} and all of Denton County. Transparent flat pricing — call ${SITE.phoneDisplay}.`,
+    title: `${service.name} in DFW, TX`,
+    description: `${service.blurb} Serving ${SITE.cities.slice(0, 4).join(", ")} and the whole DFW metroplex. Transparent flat pricing — call ${SITE.phoneDisplay}.`,
     alternates: { canonical: `/services/${slug}` },
   };
 }
@@ -55,7 +55,7 @@ export default async function ServicePage({ params }: Props) {
             <Link href="/services" className="hover:underline">
               Services
             </Link>{" "}
-            / Denton County, TX
+            / DFW, TX
           </p>
           <h1 className="display mt-2 max-w-2xl text-4xl text-paper sm:text-5xl">
             {service.name}

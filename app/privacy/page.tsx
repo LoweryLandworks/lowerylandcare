@@ -21,10 +21,12 @@ export default function PrivacyPage() {
         </h2>
         <p>
           When you request a quote, we collect the information you give us:
-          your name, phone number, service address or ZIP code, and the
-          service you&apos;re interested in. Our website may also collect
-          standard analytics data (pages visited, device type) through
-          Google Tag Manager if analytics are enabled.
+          your name, phone number, service address or ZIP code, the service
+          you&apos;re interested in, how often you&apos;d like service, and
+          whether you checked the box agreeing to receive text messages.
+          Our website may also collect standard analytics data (pages
+          visited, device type) through Google Tag Manager if analytics are
+          enabled.
         </p>
         <h2 className="display pt-2 text-xl text-forest">How we use it</h2>
         <p>
@@ -32,6 +34,19 @@ export default function PrivacyPage() {
           quote request and providing the lawn care services you ask for. We
           do not sell your information or share it with third parties for
           their marketing.
+        </p>
+        <h2 className="display pt-2 text-xl text-forest">
+          Text messaging
+        </h2>
+        <p>
+          If you check the text-message box on our quote form, you agree to
+          receive texts from Lowery Landworks at the number you provided
+          about your quote, scheduling, and service updates. Message
+          frequency varies. Message &amp; data rates may apply. Reply STOP
+          to any message to opt out, or HELP for help. Checking the box is
+          optional — it is not a condition of getting a quote or service.
+          Mobile information is never shared with third parties for their
+          marketing.
         </p>
         <h2 className="display pt-2 text-xl text-forest">Data storage</h2>
         <p>

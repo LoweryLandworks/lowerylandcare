@@ -5,8 +5,8 @@ import { Resend } from "resend";
 import { getSupabaseAdmin } from "./supabase";
 import { SITE } from "./site";
 
-// Identifies Lowery's rows in the shared `leads` table (separates them from
-// Dallas Best leads, which use other `source` values).
+// Identifies Lowery Landworks rows in the shared `leads` table (separates
+// them from Dallas Best leads, which use other `source` values).
 const LEAD_SOURCE = "lowerys-landscaping";
 
 const RATE_LIMIT_MAX = 3;
@@ -23,6 +23,10 @@ const QuoteSchema = z.object({
     .trim()
     .min(3, "Please enter your address or ZIP code."),
   service: z.string().trim().min(1, "Please pick a service."),
+  // "weekly" | "biweekly" | "one-time" — optional customer preference.
+  frequency: z.string().trim().optional(),
+  // Unchecked-by-default SMS consent checkbox on the quote form.
+  smsConsent: z.boolean().optional(),
   // Honeypot — hidden from real users; any value means a bot filled the form.
   company: z.string().optional(),
 });
@@ -32,6 +36,8 @@ export interface QuoteInput {
   phone: string;
   address: string;
   service: string;
+  frequency?: string;
+  smsConsent?: boolean;
   company?: string;
 }
 
@@ -47,6 +53,8 @@ async function notifyNewLead(params: {
   phone: string;
   address: string;
   service: string;
+  frequency?: string;
+  smsConsent?: boolean;
 }) {
   // Notification failure must never lose the lead — it's already in the DB.
   try {
@@ -59,7 +67,14 @@ async function notifyNewLead(params: {
     const resend = new Resend(apiKey);
     const from =
       process.env.RESEND_FROM_EMAIL ||
-      "Lowery's Landscaping <onboarding@resend.dev>";
+      "Lowery Landworks <onboarding@resend.dev>";
+
+    const extraRows = [
+      params.frequency
+        ? `<tr><td style="padding: 8px 0; color: #6b7280;">Frequency</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.frequency}</td></tr>`
+        : "",
+      `<tr><td style="padding: 8px 0; color: #6b7280;">SMS consent</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.smsConsent ? "Yes — can text about this quote" : "No"}</td></tr>`,
+    ].join("");
 
     await resend.emails.send({
       from,
@@ -69,12 +84,13 @@ async function notifyNewLead(params: {
         <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; padding: 24px; background: #eef0d8;">
           <div style="background: #ffffff; border-radius: 12px; padding: 28px; border: 2px solid #1e3315;">
             <h1 style="font-size: 20px; color: #1e3315; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 1px;">New Lawn Care Lead</h1>
-            <p style="color: #6b7280; font-size: 13px; margin: 0 0 20px;">Lowery's Landscaping — website quote form</p>
+            <p style="color: #6b7280; font-size: 13px; margin: 0 0 20px;">Lowery Landworks — website quote form</p>
             <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
               <tr><td style="padding: 8px 0; color: #6b7280; width: 110px;">Name</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.name}</td></tr>
               <tr><td style="padding: 8px 0; color: #6b7280;">Phone</td><td style="padding: 8px 0;"><a href="tel:${params.phone}" style="color: #1e3315; font-weight: bold;">${params.phone}</a></td></tr>
               <tr><td style="padding: 8px 0; color: #6b7280;">Address</td><td style="padding: 8px 0; color: #111827;">${params.address}</td></tr>
               <tr><td style="padding: 8px 0; color: #6b7280;">Service</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.service}</td></tr>
+              ${extraRows}
             </table>
             <p style="margin: 20px 0 0; font-size: 13px; color: #6b7280;">Call or text back fast — quote-form leads go cold quickly.</p>
           </div>
@@ -101,7 +117,8 @@ export async function submitQuote(input: QuoteInput): Promise<QuoteResult> {
       };
     }
 
-    const { name, phone, address, service, company } = parsed.data;
+    const { name, phone, address, service, frequency, smsConsent, company } =
+      parsed.data;
 
     // Honeypot — pretend success so bots don't learn they were caught.
     if (company && company.trim().length > 0) {
@@ -140,6 +157,9 @@ export async function submitQuote(input: QuoteInput): Promise<QuoteResult> {
       service_address: address,
       status: "new",
       source: LEAD_SOURCE,
+      // sms_consent column exists on the shared leads table (added 2026-09-15).
+      sms_consent: smsConsent === true,
+      notes: frequency ? `Requested frequency: ${frequency}` : null,
     });
 
     if (insertError) {
@@ -147,7 +167,14 @@ export async function submitQuote(input: QuoteInput): Promise<QuoteResult> {
     }
 
     // Fire-and-forget: the lead is saved; email failure shouldn't fail the request.
-    await notifyNewLead({ name, phone: cleanPhone, address, service });
+    await notifyNewLead({
+      name,
+      phone: cleanPhone,
+      address,
+      service,
+      frequency,
+      smsConsent,
+    });
 
     return {
       success: true,

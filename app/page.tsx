@@ -7,14 +7,17 @@ import { Fern, Sprig } from "@/components/LeafDeco";
 import {
   TrustBadges,
   HowItWorks,
-  Reviews,
+  ReviewsComingSoon,
   CallAndQuoteButtons,
 } from "@/components/Trust";
+import { SeasonalBand } from "@/components/SeasonalBand";
+import { BeforeAfterGallery } from "@/components/BeforeAfterGallery";
+import { ReferralSection } from "@/components/ReferralSection";
 
 export const metadata: Metadata = {
-  title: "Lowery Landworks — Lawn Care in Denton County, TX",
+  title: "Lowery Landworks — Lawn Care in DFW (Dallas–Fort Worth), TX",
   description:
-    "Mowing, cleanups, hedge trimming, mulch and more across Denton County. The price we quote is the price you pay — no surprise upcharges. Free quotes: (682) 390-5608.",
+    "Mowing, cleanups, hedge trimming, mulch and more across the Dallas–Fort Worth metroplex. The price we quote is the price you pay — no surprise upcharges. Free quotes: (469) 301-1977.",
   alternates: { canonical: "/" },
 };
 
@@ -27,14 +30,14 @@ export default function HomePage() {
         <Sprig className="absolute -left-6 bottom-4 h-40 w-40 -rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-bronze">
-            Denton County, TX
+            Dallas–Fort Worth, TX
           </p>
           <h1 className="display mt-3 max-w-3xl text-5xl text-paper sm:text-6xl md:text-7xl">
-            Your lawn, handled.
+            Lawn care, handled.
           </h1>
           <p className="mt-5 max-w-xl text-lg font-medium text-paper/80 md:text-xl">
-            Mowing, cleanups & more across Denton County — on your schedule.
-            The price we quote is the price you pay.{" "}
+            Mowing, cleanups & more across the whole DFW metroplex — on your
+            schedule. The price we quote is the price you pay.{" "}
             <strong>No surprise upcharges, ever.</strong>
           </p>
           <div className="mt-8 max-w-xl">
@@ -52,8 +55,8 @@ export default function HomePage() {
           What we do
         </h2>
         <p className="mt-2 max-w-xl text-base text-ink/75">
-          Everything a Denton County yard needs, from one local crew you can
-          actually get on the phone.
+          Everything a DFW yard needs, from one local crew you can actually
+          get on the phone.
         </p>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
@@ -72,6 +75,27 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FIND MY LAWN PLAN QUIZ */}
+      <section className="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+        <div className="rounded-2xl bg-ink p-8 text-center sm:p-10">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-bronze">
+            Not sure what your yard needs?
+          </p>
+          <h2 className="display mx-auto mt-3 max-w-xl text-3xl text-paper sm:text-4xl">
+            Take the 30-second lawn quiz
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-base text-paper/75">
+            Answer three quick questions in plain language — we&apos;ll tell
+            you exactly which service your yard needs and what it costs.
+          </p>
+          <Link
+            href="/find-my-lawn-plan"
+            className="mt-6 inline-flex h-14 items-center rounded-lg bg-bronze px-10 text-lg font-bold text-ink transition-colors hover:bg-bronze-bright"
+          >
+            Find My Lawn Plan
+          </Link>
+        </div>
+      </section>
       {/* TRANSPARENT PRICING — core trust pillar */}
       <section className="relative overflow-hidden bg-earth text-olive-pale">
         <Fern className="absolute -left-10 top-8 h-72 w-48 -rotate-6 text-olive/10" />
@@ -123,29 +147,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* REVIEWS — placeholder testimonials, see components/Trust.tsx */}
+      {/* REVIEWS — honest "on the way" card until real reviews exist */}
       <section className="bg-olive/40">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <h2 className="display text-3xl text-forest sm:text-4xl">
             Neighbors who&apos;d recommend us
           </h2>
           <div className="mt-8">
-            <Reviews />
+            <ReviewsComingSoon />
           </div>
         </div>
       </section>
 
+      {/* SEASONAL CAMPAIGN — switches automatically by month */}
+      <SeasonalBand />
+
+      {/* BEFORE/AFTER — renders only once real photos are added */}
+      <BeforeAfterGallery />
+
+      {/* REFERRALS — renders only when terms are owner-approved */}
+      <ReferralSection />
+
       {/* SERVICE AREA */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <h2 className="display text-3xl text-forest sm:text-4xl">
-          Proudly serving Denton County
+          Serving the whole DFW metroplex
         </h2>
         <p className="mt-2 max-w-xl text-base text-ink/75">
-          We&apos;re local — based in Denton County, not dispatched from a call
-          center. If you&apos;re near one of these towns, you&apos;re in our
-          area:
+          We&apos;re local — based in DFW, not dispatched from a call center.
+          From Denton to Fort Worth, Dallas to Frisco: if you&apos;re in one
+          of these towns, you&apos;re in our area.
         </p>
-        <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {SITE.cities.map((city) => (
             <li
               key={city}
