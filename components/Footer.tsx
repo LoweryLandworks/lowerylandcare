@@ -7,8 +7,8 @@ export function Footer() {
     <footer className="bg-forest-deep text-olive-pale">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
         <div>
-          <p className="display text-2xl text-olive">Lowery&apos;s</p>
-          <p className="display text-base tracking-widest">Landscaping</p>
+          <p className="display text-2xl text-olive">Lowery</p>
+          <p className="display text-base tracking-widest">Landworks</p>
           <p className="mt-3 text-sm text-olive-pale/70">
             Locally owned lawn care serving {SITE.areaLabel}.
           </p>
