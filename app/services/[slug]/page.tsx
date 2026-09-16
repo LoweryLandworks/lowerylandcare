@@ -48,26 +48,26 @@ export default async function ServicePage({ params }: Props) {
       />
 
       {/* HERO */}
-      <section className="relative overflow-hidden bg-olive">
-        <Sprig className="absolute -right-6 -top-6 h-44 w-44 rotate-12 text-forest/10" />
+      <section className="relative overflow-hidden bg-ink">
+        <Sprig className="absolute -right-6 -top-6 h-44 w-44 rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <p className="text-sm font-bold uppercase tracking-widest text-forest/70">
+          <p className="text-sm font-bold uppercase tracking-widest text-paper/60">
             <Link href="/services" className="hover:underline">
               Services
             </Link>{" "}
             / Denton County, TX
           </p>
-          <h1 className="display mt-2 max-w-2xl text-4xl text-forest sm:text-5xl">
+          <h1 className="display mt-2 max-w-2xl text-4xl text-paper sm:text-5xl">
             {service.name}
           </h1>
-          <p className="mt-4 max-w-xl text-lg text-forest/90">
+          <p className="mt-4 max-w-xl text-lg text-paper/80">
             {service.blurb}
           </p>
           <div className="mt-6 max-w-xl">
-            <CallAndQuoteButtons />
+            <CallAndQuoteButtons dark />
           </div>
           <div className="mt-5">
-            <TrustBadges />
+            <TrustBadges dark />
           </div>
         </div>
       </section>
@@ -86,7 +86,7 @@ export default async function ServicePage({ params }: Props) {
               <li key={item} className="flex items-start gap-3 text-base">
                 <svg
                   viewBox="0 0 20 20"
-                  className="mt-0.5 h-5 w-5 shrink-0 text-forest"
+                  className="mt-0.5 h-5 w-5 shrink-0 text-lake"
                   fill="currentColor"
                   aria-hidden="true"
                 >

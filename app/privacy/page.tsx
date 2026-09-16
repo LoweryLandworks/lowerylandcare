@@ -3,7 +3,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Lowery's Landscaping.",
+  description: "Privacy policy for Lowery Landworks.",
   alternates: { canonical: "/privacy" },
 };
 

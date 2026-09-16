@@ -7,10 +7,10 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <Link href="/" className="min-w-0">
           <span className="display block text-xl leading-none text-olive sm:text-2xl">
-            Lowery&apos;s
+            Lowery
           </span>
           <span className="display block text-sm leading-none tracking-widest text-olive-pale sm:text-base">
-            Landscaping
+            Landworks
           </span>
         </Link>
 

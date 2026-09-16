@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 // OG image placeholder — generated at build time in brand colors.
 // Swap for a real photo-based OG image when one exists.
-export const alt = "Lowery's Landscaping — Lawn Care in Denton County, TX";
+export const alt = "Lowery Landworks — Lawn Care in Denton County, TX";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -17,8 +17,8 @@ export default function OgImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#b7c14e",
-          color: "#1e3315",
+          background: "#242338",
+          color: "#f6f4ec",
           fontFamily: "sans-serif",
         }}
       >
@@ -31,7 +31,7 @@ export default function OgImage() {
             lineHeight: 1,
           }}
         >
-          Lowery&apos;s
+          Lowery
         </div>
         <div
           style={{
@@ -42,15 +42,15 @@ export default function OgImage() {
             marginTop: 10,
           }}
         >
-          Landscaping
+          Landworks
         </div>
         <div
           style={{
             marginTop: 36,
             fontSize: 30,
             fontWeight: 700,
-            background: "#1e3315",
-            color: "#c9d360",
+            background: "#B88D18",
+            color: "#242338",
             padding: "14px 34px",
             borderRadius: 12,
           }}

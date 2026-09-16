@@ -14,18 +14,18 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-olive">
-        <Fern className="absolute -right-8 -top-12 h-72 w-48 rotate-12 text-forest/10" />
+      <section className="relative overflow-hidden bg-ink">
+        <Fern className="absolute -right-8 -top-12 h-72 w-48 rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <h1 className="display text-4xl text-forest sm:text-5xl">
+          <h1 className="display text-4xl text-paper sm:text-5xl">
             Our services
           </h1>
-          <p className="mt-3 max-w-xl text-lg text-forest/90">
+          <p className="mt-3 max-w-xl text-lg text-paper/80">
             Every service comes with the same deal: one exact price up front,
             and that&apos;s what you pay.
           </p>
           <div className="mt-5">
-            <TrustBadges />
+            <TrustBadges dark />
           </div>
         </div>
       </section>
@@ -43,7 +43,7 @@ export default function ServicesPage() {
               <p className="mt-4 text-sm font-bold text-forest">
                 {s.pricing.label} {s.pricing.price} {s.pricing.unit}
               </p>
-              <span className="mt-2 inline-block text-sm font-bold text-forest underline-offset-4 group-hover:underline">
+              <span className="mt-2 inline-block text-sm font-bold text-lake underline-offset-4 group-hover:underline">
                 See what&apos;s included →
               </span>
             </Link>

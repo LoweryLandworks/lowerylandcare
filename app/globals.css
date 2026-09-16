@@ -1,32 +1,51 @@
 @import "tailwindcss";
 
 /*
-  Lowery's Landscaping design system — from the business card:
-  - Primary background: light olive/chartreuse
-  - Dark sections: deep forest green
+  Lowery Landworks design system — Premium Dark:
+  - Ink #242338: headers, footers, dark sections, headlines
+  - Earth #383223: alternating dark bands (the "land" tone)
+  - Bronze #B88D18: premium accents — dividers, badges, stars
+  - Lake #1874B8: primary CTAs + links (water/sky)
+  - Volt #0A00B8: sparing highlights only (text selection)
+  - Paper #f6f4ec: light canvas
   - Display type: heavy condensed uppercase (Anton)
   - Body type: clean geometric sans (DM Sans)
 */
 @theme {
-  --color-olive: #b7c14e;
-  --color-olive-bright: #c9d360;
-  --color-olive-pale: #eef0d8;
-  --color-forest: #1e3315;
-  --color-forest-deep: #142409;
-  --color-ink: #1a2610;
+  --color-bronze: #B88D18;
+  --color-bronze-bright: #d2ab3f;
+  --color-paper: #f6f4ec;
+  --color-ink: #242338;
+  --color-ink-deep: #191924;
+  --color-earth: #383223;
+  --color-lake: #1874B8;
+  --color-lake-deep: #0f5c96;
+  --color-volt: #0A00B8;
+
+  /* Legacy aliases from the olive/forest era — existing classes keep working */
+  --color-olive: #B88D18;
+  --color-olive-bright: #d2ab3f;
+  --color-olive-pale: #f6f4ec;
+  --color-forest: #242338;
+  --color-forest-deep: #191924;
 
   --font-display: var(--font-anton), sans-serif;
   --font-sans: var(--font-dm-sans), sans-serif;
 }
 
 body {
-  background: var(--color-olive-pale);
+  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
 }
 
-/* Condensed uppercase display treatment, like the card's wordmark */
+::selection {
+  background: var(--color-volt);
+  color: #fff;
+}
+
+/* Condensed uppercase display treatment, like the wordmark */
 .display {
   font-family: var(--font-display);
   text-transform: uppercase;

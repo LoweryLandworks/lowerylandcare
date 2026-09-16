@@ -21,8 +21,8 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.domain),
   title: {
-    default: "Lowery's Landscaping — Lawn Care in Denton County, TX",
-    template: "%s | Lowery's Landscaping",
+    default: "Lowery Landworks — Lawn Care in Denton County, TX",
+    template: "%s | Lowery Landworks",
   },
   description:
     "Locally owned lawn care serving Denton, Lewisville, Flower Mound and all of Denton County. Transparent pricing — the price we quote is the price you pay. Call (682) 390-5608.",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 
 // LocalBusiness structured data. Using LocalBusiness + serviceType (not an
 // invented schema type). PLACEHOLDER: no street address published yet — add
-// one here if/when Lowery's wants it on Google.
+// one here if/when Lowery Landworks wants it on Google.
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
