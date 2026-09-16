@@ -12,7 +12,7 @@ import {
 } from "@/components/Trust";
 
 export const metadata: Metadata = {
-  title: "Lowery's Landscaping — Lawn Care in Denton County, TX",
+  title: "Lowery Landworks — Lawn Care in Denton County, TX",
   description:
     "Mowing, cleanups, hedge trimming, mulch and more across Denton County. The price we quote is the price you pay — no surprise upcharges. Free quotes: (682) 390-5608.",
   alternates: { canonical: "/" },
@@ -22,23 +22,26 @@ export default function HomePage() {
   return (
     <>
       {/* HERO — one clear promise */}
-      <section className="relative overflow-hidden bg-olive">
-        <Fern className="absolute -right-8 -top-10 h-80 w-52 rotate-12 text-forest/10" />
-        <Sprig className="absolute -left-6 bottom-4 h-40 w-40 -rotate-12 text-forest/10" />
+      <section className="relative overflow-hidden bg-ink">
+        <Fern className="absolute -right-8 -top-10 h-80 w-52 rotate-12 text-bronze/10" />
+        <Sprig className="absolute -left-6 bottom-4 h-40 w-40 -rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-          <h1 className="display max-w-3xl text-5xl text-forest sm:text-6xl md:text-7xl">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-bronze">
+            Denton County, TX
+          </p>
+          <h1 className="display mt-3 max-w-3xl text-5xl text-paper sm:text-6xl md:text-7xl">
             Your lawn, handled.
           </h1>
-          <p className="mt-5 max-w-xl text-lg font-medium text-forest/90 md:text-xl">
+          <p className="mt-5 max-w-xl text-lg font-medium text-paper/80 md:text-xl">
             Mowing, cleanups & more across Denton County — on your schedule.
             The price we quote is the price you pay.{" "}
             <strong>No surprise upcharges, ever.</strong>
           </p>
           <div className="mt-8 max-w-xl">
-            <CallAndQuoteButtons quoteHref="#quote" />
+            <CallAndQuoteButtons quoteHref="#quote" dark />
           </div>
           <div className="mt-6">
-            <TrustBadges />
+            <TrustBadges dark />
           </div>
         </div>
       </section>
@@ -61,7 +64,7 @@ export default function HomePage() {
             >
               <h3 className="display text-xl text-forest">{s.shortName}</h3>
               <p className="mt-2 text-base text-ink/75">{s.blurb}</p>
-              <span className="mt-4 inline-block text-sm font-bold text-forest underline-offset-4 group-hover:underline">
+              <span className="mt-4 inline-block text-sm font-bold text-lake underline-offset-4 group-hover:underline">
                 Details & pricing →
               </span>
             </Link>
@@ -70,7 +73,7 @@ export default function HomePage() {
       </section>
 
       {/* TRANSPARENT PRICING — core trust pillar */}
-      <section className="relative overflow-hidden bg-forest text-olive-pale">
+      <section className="relative overflow-hidden bg-earth text-olive-pale">
         <Fern className="absolute -left-10 top-8 h-72 w-48 -rotate-6 text-olive/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
           <h2 className="display max-w-2xl text-3xl text-olive sm:text-4xl md:text-5xl">
