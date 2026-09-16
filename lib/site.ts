@@ -1,6 +1,6 @@
 export const SITE = {
-  name: "Lowery's Landscaping",
-  legalName: "Lowery's Landscaping",
+  name: "Lowery Landworks",
+  legalName: "Lowery Landworks",
   domain: "https://loweryslandscape.com",
   phoneDisplay: "(682) 390-5608",
   phoneTel: "+16823905608",
