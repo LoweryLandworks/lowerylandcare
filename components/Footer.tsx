@@ -11,7 +11,7 @@ export function Footer() {
           <p className="display text-2xl text-olive">Lowery</p>
           <p className="display text-base tracking-widest">Landworks</p>
           <p className="mt-3 text-sm text-olive-pale/70">
-            Locally owned lawn care serving {SITE.areaLabel}.
+            Outdoor property maintenance serving {SITE.areaLabel}.
           </p>
           <a
             href={`tel:${SITE.phoneTel}`}

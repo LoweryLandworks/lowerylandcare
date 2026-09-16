@@ -15,9 +15,9 @@ import { BeforeAfterGallery } from "@/components/BeforeAfterGallery";
 import { ReferralSection } from "@/components/ReferralSection";
 
 export const metadata: Metadata = {
-  title: "Lowery Landworks — Lawn Care in DFW (Dallas–Fort Worth), TX",
+  title: "Lowery Landworks — Outdoor Property Maintenance in DFW, TX",
   description:
-    "Mowing, cleanups, hedge trimming, mulch and more across the Dallas–Fort Worth metroplex. The price we quote is the price you pay — no surprise upcharges. Free quotes: (469) 301-1977.",
+    "Outdoor property maintenance across the Dallas–Fort Worth metroplex: mowing, cleanups, hedge trimming, mulch and more. The price we quote is the price you pay — no surprise upcharges. Free quotes: (469) 301-1977.",
   alternates: { canonical: "/" },
 };
 
@@ -30,15 +30,15 @@ export default function HomePage() {
         <Sprig className="absolute -left-6 bottom-4 h-40 w-40 -rotate-12 text-bronze/10" />
         <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-bronze">
-            Dallas–Fort Worth, TX
+            Outdoor property maintenance · DFW, TX
           </p>
           <h1 className="display mt-3 max-w-3xl text-5xl text-paper sm:text-6xl md:text-7xl">
-            Lawn care, handled.
+            Outdoor property maintenance, handled.
           </h1>
           <p className="mt-5 max-w-xl text-lg font-medium text-paper/80 md:text-xl">
-            Mowing, cleanups & more across the whole DFW metroplex — on your
-            schedule. The price we quote is the price you pay.{" "}
-            <strong>No surprise upcharges, ever.</strong>
+            Mowing, cleanups, hedges, mulch & more across the whole DFW
+            metroplex — on your schedule. The price we quote is the price
+            you pay. <strong>No surprise upcharges, ever.</strong>
           </p>
           <div className="mt-8 max-w-xl">
             <CallAndQuoteButtons quoteHref="#quote" dark />
@@ -52,11 +52,12 @@ export default function HomePage() {
       {/* SERVICES OVERVIEW */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <h2 className="display text-3xl text-forest sm:text-4xl">
-          What we do
+          What we maintain
         </h2>
         <p className="mt-2 max-w-xl text-base text-ink/75">
-          Everything a DFW yard needs, from one local crew you can actually
-          get on the phone.
+          Outdoor property maintenance for DFW homes — everything outside
+          your four walls, from one local crew you can actually get on the
+          phone.
         </p>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
