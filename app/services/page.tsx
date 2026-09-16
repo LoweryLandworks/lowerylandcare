@@ -41,7 +41,7 @@ export default function ServicesPage() {
               <h2 className="display text-2xl text-forest">{s.name}</h2>
               <p className="mt-2 text-base text-ink/75">{s.blurb}</p>
               <p className="mt-4 text-sm font-bold text-forest">
-                {s.pricing.label} {s.pricing.price} {s.pricing.unit}
+                {s.pricing.headline} — {s.pricing.sub}
               </p>
               <span className="mt-2 inline-block text-sm font-bold text-lake underline-offset-4 group-hover:underline">
                 See what&apos;s included →

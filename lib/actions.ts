@@ -25,6 +25,8 @@ const QuoteSchema = z.object({
   service: z.string().trim().min(1, "Please pick a service."),
   // "weekly" | "biweekly" | "one-time" — optional customer preference.
   frequency: z.string().trim().optional(),
+  // "home" | "business" — residential vs commercial property.
+  propertyType: z.string().trim().optional(),
   // Unchecked-by-default SMS consent checkbox on the quote form.
   smsConsent: z.boolean().optional(),
   // Honeypot — hidden from real users; any value means a bot filled the form.
@@ -37,6 +39,7 @@ export interface QuoteInput {
   address: string;
   service: string;
   frequency?: string;
+  propertyType?: string;
   smsConsent?: boolean;
   company?: string;
 }
@@ -54,6 +57,7 @@ async function notifyNewLead(params: {
   address: string;
   service: string;
   frequency?: string;
+  propertyType?: string;
   smsConsent?: boolean;
 }) {
   // Notification failure must never lose the lead — it's already in the DB.
@@ -72,6 +76,9 @@ async function notifyNewLead(params: {
     const extraRows = [
       params.frequency
         ? `<tr><td style="padding: 8px 0; color: #6b7280;">Frequency</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.frequency}</td></tr>`
+        : "",
+      params.propertyType
+        ? `<tr><td style="padding: 8px 0; color: #6b7280;">Property type</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.propertyType === "business" ? "Business / commercial" : "Home / residential"}</td></tr>`
         : "",
       `<tr><td style="padding: 8px 0; color: #6b7280;">SMS consent</td><td style="padding: 8px 0; color: #111827; font-weight: bold;">${params.smsConsent ? "Yes — can text about this quote" : "No"}</td></tr>`,
     ].join("");
@@ -117,7 +124,7 @@ export async function submitQuote(input: QuoteInput): Promise<QuoteResult> {
       };
     }
 
-    const { name, phone, address, service, frequency, smsConsent, company } =
+    const { name, phone, address, service, frequency, propertyType, smsConsent, company } =
       parsed.data;
 
     // Honeypot — pretend success so bots don't learn they were caught.
@@ -159,7 +166,14 @@ export async function submitQuote(input: QuoteInput): Promise<QuoteResult> {
       source: LEAD_SOURCE,
       // sms_consent column exists on the shared leads table (added 2026-09-15).
       sms_consent: smsConsent === true,
-      notes: frequency ? `Requested frequency: ${frequency}` : null,
+      notes: [
+        frequency ? `Requested frequency: ${frequency}` : null,
+        propertyType
+          ? `Property type: ${propertyType === "business" ? "Business / commercial" : "Home / residential"}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(" · ") || null,
     });
 
     if (insertError) {

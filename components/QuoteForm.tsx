@@ -25,9 +25,11 @@ const FREQUENCIES = [
 function QuoteFormInner({
   initialService = "",
   initialFrequency = "",
+  initialPropertyType = "",
 }: {
   initialService?: string;
   initialFrequency?: string;
+  initialPropertyType?: string;
 }) {
   const [pending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
@@ -46,6 +48,7 @@ function QuoteFormInner({
         address: String(fd.get("address") || ""),
         service: String(fd.get("service") || ""),
         frequency: String(fd.get("frequency") || "") || undefined,
+        propertyType: String(fd.get("propertyType") || "") || undefined,
         smsConsent: fd.get("smsConsent") === "on",
         company: String(fd.get("company") || ""),
       });
@@ -186,6 +189,30 @@ function QuoteFormInner({
         </div>
       </fieldset>
 
+      <fieldset>
+        <legend className={labelClass}>Is this for a home or a business?</legend>
+        <div className="grid grid-cols-2 gap-2">
+          {[
+            { value: "home", label: "Home" },
+            { value: "business", label: "Business" },
+          ].map((p) => (
+            <label
+              key={p.value}
+              className="flex min-h-12 cursor-pointer items-center justify-center rounded-lg border-2 border-forest/25 bg-white px-2 py-2.5 text-center text-sm font-bold text-ink transition-colors has-checked:border-forest has-checked:bg-forest has-checked:text-white"
+            >
+              <input
+                type="radio"
+                name="propertyType"
+                value={p.value}
+                defaultChecked={initialPropertyType === p.value}
+                className="sr-only"
+              />
+              {p.label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       {/* SMS consent — deliberately unchecked by default */}
       <label className="flex cursor-pointer items-start gap-3 rounded-lg border-2 border-forest/15 bg-white/60 p-3">
         <input
@@ -219,8 +246,8 @@ function QuoteFormInner({
       </button>
 
       <p className="text-center text-xs text-ink/60">
-        No spam, no pressure. We reply with a real price — locally owned &amp;
-        insured.
+        No spam, no pressure. We reply with an exact price — locally owned
+        &amp; operated.
       </p>
     </form>
   );
@@ -236,10 +263,12 @@ function QuoteFormWithParams() {
   // Accept either a service slug (from the quiz) or a display name.
   const matched = getService(rawService) ?? SERVICES.find((s) => s.shortName === rawService);
   const frequency = params.get("frequency") || "";
+  const property = params.get("property") || "";
   return (
     <QuoteFormInner
       initialService={matched ? matched.shortName : ""}
       initialFrequency={["weekly", "biweekly", "one-time"].includes(frequency) ? frequency : ""}
+      initialPropertyType={["home", "business"].includes(property) ? property : ""}
     />
   );
 }

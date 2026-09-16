@@ -182,9 +182,11 @@ function QuizResultScreen({
         <p className="text-sm font-bold uppercase tracking-widest text-ink/60">
           {service.pricing.label}
         </p>
-        <p className="display mt-1 text-4xl text-forest">
-          {service.pricing.price}{" "}
-          <span className="text-lg">{service.pricing.unit}</span>
+        <p className="display mt-1 text-2xl text-forest">
+          {service.pricing.headline}
+        </p>
+        <p className="mt-1 text-sm font-semibold text-ink/70">
+          {service.pricing.sub}
         </p>
         <p className="mt-2 text-sm text-ink/65">{service.pricing.note}</p>
       </div>

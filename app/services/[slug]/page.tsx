@@ -63,6 +63,12 @@ export default async function ServicePage({ params }: Props) {
           <p className="mt-4 max-w-xl text-lg text-paper/80">
             {service.blurb}
           </p>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-bronze/20 px-4 py-2 text-sm font-bold text-bronze">
+            {service.pricing.headline}{" "}
+            <span className="font-medium text-paper/70">
+              {service.pricing.sub}
+            </span>
+          </p>
           <div className="mt-6 max-w-xl">
             <CallAndQuoteButtons dark />
           </div>
@@ -78,9 +84,22 @@ export default async function ServicePage({ params }: Props) {
             {service.description}
           </p>
 
+          {/* WHO IT'S FOR */}
+          <h2 className="display mt-10 text-2xl text-forest">
+            Who it&apos;s for
+          </h2>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink/80">
+            {service.whoFor}
+          </p>
+
+          {/* WHAT'S INCLUDED */}
           <h2 className="display mt-10 text-2xl text-forest">
             What&apos;s included
           </h2>
+          <p className="mt-2 max-w-2xl text-base text-ink/70">
+            Every {service.shortName.toLowerCase()} visit covers each of
+            these — no tiers, no half-done visits.
+          </p>
           <ul className="mt-4 space-y-3">
             {service.included.map((item) => (
               <li key={item} className="flex items-start gap-3 text-base">
@@ -97,6 +116,55 @@ export default async function ServicePage({ params }: Props) {
             ))}
           </ul>
 
+          {/* HONEST SCOPE */}
+          <div className="mt-10 rounded-2xl border-2 border-bronze/40 bg-bronze/10 p-6">
+            <h2 className="display text-xl text-forest">
+              What it doesn&apos;t do
+            </h2>
+            <p className="mt-2 max-w-2xl text-base leading-relaxed text-ink/80">
+              {service.notIncluded}
+            </p>
+          </div>
+
+          {/* HOW IT WORKS */}
+          <h2 className="display mt-12 text-2xl text-forest">
+            How it works
+          </h2>
+          <ol className="mt-5 space-y-5">
+            {service.steps.map((step, i) => (
+              <li key={step.title} className="flex gap-4">
+                <span className="display flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest text-lg text-olive">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="text-base font-bold text-ink">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1 max-w-2xl text-base text-ink/75">
+                    {step.text}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* PRICING EXPLAINER */}
+          <h2 className="display mt-12 text-2xl text-forest">
+            How pricing works
+          </h2>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink/80">
+            {service.pricingExplainer}
+          </p>
+
+          {/* CLIMATE NOTE */}
+          <h2 className="display mt-12 text-2xl text-forest">
+            Why it matters in North Texas
+          </h2>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink/80">
+            {service.climateNote}
+          </p>
+
+          {/* FAQS */}
           <h2 className="display mt-12 text-2xl text-forest">
             Common questions
           </h2>
@@ -115,20 +183,20 @@ export default async function ServicePage({ params }: Props) {
           </div>
         </div>
 
-        {/* PRICING SIDEBAR — placeholder numbers, see lib/services.ts TODO */}
+        {/* PRICING SIDEBAR — no published prices; quote within 60 minutes */}
         <aside className="h-fit rounded-2xl bg-forest p-7 text-olive-pale lg:sticky lg:top-6">
           <p className="text-sm font-bold uppercase tracking-widest text-olive-pale/70">
             {service.pricing.label}
           </p>
-          <p className="display mt-1 text-5xl text-olive">
-            {service.pricing.price}
+          <p className="display mt-1 text-3xl text-olive">
+            {service.pricing.headline}
           </p>
-          <p className="mt-1 text-base font-semibold">{service.pricing.unit}</p>
+          <p className="mt-1 text-base font-semibold">{service.pricing.sub}</p>
           <p className="mt-4 text-sm leading-relaxed text-olive-pale/80">
             {service.pricing.note}
           </p>
           <Link
-            href="/quote"
+            href={`/quote?service=${service.slug}`}
             className="mt-6 flex h-12 items-center justify-center rounded-lg bg-olive text-base font-bold text-forest hover:bg-olive-bright"
           >
             Get My Exact Price
@@ -139,7 +207,29 @@ export default async function ServicePage({ params }: Props) {
           >
             Call {SITE.phoneDisplay}
           </a>
+          <p className="mt-4 text-center text-sm font-semibold text-olive-pale/70">
+            We respond to every quote request within 60 minutes.
+          </p>
         </aside>
+      </section>
+
+      {/* COMMERCIAL STRIP */}
+      <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
+        <div className="rounded-2xl bg-ink p-8 text-paper sm:p-10">
+          <h2 className="display text-2xl sm:text-3xl">
+            Need {service.shortName.toLowerCase()} for a commercial property?
+          </h2>
+          <p className="mt-3 max-w-2xl text-base text-paper/75">
+            We maintain outdoor spaces for DFW businesses too — tell us
+            about the property and get a commercial quote.
+          </p>
+          <Link
+            href="/commercial"
+            className="mt-6 inline-flex h-12 items-center rounded-lg bg-bronze px-8 text-base font-bold text-ink hover:brightness-110"
+          >
+            Commercial Property Maintenance
+          </Link>
+        </div>
       </section>
 
       {/* OTHER SERVICES */}

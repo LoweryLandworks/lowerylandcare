@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { SERVICES } from "@/lib/services";
 import { CITIES } from "@/lib/cities";
+import { GUIDES } from "@/lib/guides";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -11,6 +12,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/quote",
     "/about",
     "/locations",
+    "/commercial",
+    "/faq",
+    "/guides",
     "/find-my-lawn-plan",
     "/privacy",
     "/terms",
@@ -33,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.9,
+    })),
+    ...GUIDES.map((g) => ({
+      url: `${SITE.domain}/guides/${g.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }
