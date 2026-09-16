@@ -7,7 +7,7 @@ import { TrustBadges, HowItWorks } from "@/components/Trust";
 export const metadata: Metadata = {
   title: "Get a Free Quote",
   description:
-    "Get an exact lawn care price in 30 seconds — no site-visit sales pitch. Serving Dallas, Fort Worth, Denton, Plano, Frisco and the whole DFW metroplex, TX.",
+    "Get an exact outdoor property maintenance price in 30 seconds — no site-visit sales pitch. Serving Dallas, Fort Worth, Denton, Plano, Frisco and the whole DFW metroplex, TX.",
   alternates: { canonical: "/quote" },
 };
 

@@ -34,7 +34,7 @@ export default function AboutPage() {
         <div className="space-y-5 text-lg leading-relaxed text-ink/85">
           <p>
             I&apos;m Mike Lowery — owner, crew, and customer service
-            department. Lowery Landworks started the way most good lawn
+            department. Lowery Landworks started the way most good outdoor
             companies do — with one truck, one trailer, and neighbors asking
             &ldquo;can you do mine too?&rdquo;
           </p>
@@ -43,7 +43,7 @@ export default function AboutPage() {
             quote one price and charge another, show up when it suits them,
             and treat your yard like a route number. We do the opposite. The
             price we quote is the price you pay, we come on your schedule, and
-            we treat every lawn like it&apos;s on our own street — because
+            we treat every property like it&apos;s on our own street — because
             around here, it usually is.
           </p>
           <p>
