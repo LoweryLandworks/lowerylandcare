@@ -1,5 +1,41 @@
 [
   {
+    "src": "review/logo-stone-walkway-gate.jpg",
+    "label": "logo stone walkway gate"
+  },
+  {
+    "src": "review/logo-stone-retaining-beds.jpg",
+    "label": "logo stone retaining beds"
+  },
+  {
+    "src": "review/logo-stone-bed-house.jpg",
+    "label": "logo stone bed house"
+  },
+  {
+    "src": "review/logo-sod-install.jpg",
+    "label": "logo sod install"
+  },
+  {
+    "src": "review/logo-retaining-wall-big.jpg",
+    "label": "logo retaining wall big"
+  },
+  {
+    "src": "review/logo-retaining-wall-long.jpg",
+    "label": "logo retaining wall long"
+  },
+  {
+    "src": "review/logo-retaining-wall-beds.jpg",
+    "label": "logo retaining wall beds"
+  },
+  {
+    "src": "review/logo-flower-bed-edging.jpg",
+    "label": "logo flower bed edging"
+  },
+  {
+    "src": "review/logo-flagstone-rock-feature.jpg",
+    "label": "logo flagstone rock feature"
+  },
+  {
     "src": "review/logo-outdoor-kitchen.jpg",
     "label": "logo outdoor kitchen"
   },
@@ -156,14 +192,6 @@
     "label": "logo excavation sunbelt"
   },
   {
-    "src": "review/logo-flagstone-rock-feature.jpg",
-    "label": "logo flagstone rock feature"
-  },
-  {
-    "src": "review/logo-flower-bed-edging.jpg",
-    "label": "logo flower bed edging"
-  },
-  {
     "src": "review/logo-house-driveway-composite-2.jpg",
     "label": "logo house driveway composite 2"
   },
@@ -188,40 +216,12 @@
     "label": "logo pressure wash walkway"
   },
   {
-    "src": "review/logo-retaining-wall-beds.jpg",
-    "label": "logo retaining wall beds"
-  },
-  {
-    "src": "review/logo-retaining-wall-big.jpg",
-    "label": "logo retaining wall big"
-  },
-  {
-    "src": "review/logo-retaining-wall-long.jpg",
-    "label": "logo retaining wall long"
-  },
-  {
     "src": "review/logo-side-yard-path.jpg",
     "label": "logo side yard path"
   },
   {
     "src": "review/logo-sidewalk-wash-composite.jpg",
     "label": "logo sidewalk wash composite"
-  },
-  {
-    "src": "review/logo-sod-install.jpg",
-    "label": "logo sod install"
-  },
-  {
-    "src": "review/logo-stone-bed-house.jpg",
-    "label": "logo stone bed house"
-  },
-  {
-    "src": "review/logo-stone-retaining-beds.jpg",
-    "label": "logo stone retaining beds"
-  },
-  {
-    "src": "review/logo-stone-walkway-gate.jpg",
-    "label": "logo stone walkway gate"
   },
   {
     "src": "review/logo-tree-ring-bed.jpg",
