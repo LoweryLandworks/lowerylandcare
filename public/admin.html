@@ -39,6 +39,17 @@
   .pw { max-width: 560px; margin: 0 auto; padding: 6px 0 20px; text-align: center; }
   .pw input { width: 100%; font-size: 16px; padding: 12px; border-radius: 8px; border: 1px solid #1d4a35; background: #123526; color: #f3ead3; text-align: center; }
   .pw p { font-size: 12px; opacity: .7; margin-top: 6px; }
+  .pw h3 { color: #d4af5a; font-size: 14px; letter-spacing: 1px; margin-bottom: 10px; }
+  .pw input { margin-top: 8px; }
+  #pwMsg { min-height: 18px; }
+  #pwMsg.err { color: #e08a8a; }
+  #pwMsg.ok { color: #9fd6a8; }
+  #lock { position: fixed; inset: 0; background: #0e2a1f; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .lockbox { max-width: 380px; width: 100%; text-align: center; border: 1px solid #1d4a35; border-radius: 14px; padding: 28px 22px; background: #123526; }
+  .lockbox h2 { color: #d4af5a; font-size: 18px; letter-spacing: 2px; margin-bottom: 8px; }
+  .lockbox p { font-size: 13px; opacity: .8; margin-bottom: 14px; }
+  .lockbox input { width: 100%; font-size: 17px; padding: 13px; border-radius: 8px; border: 1px solid #1d4a35; background: #0e2a1f; color: #f3ead3; text-align: center; margin-bottom: 12px; }
+  #lockErr { min-height: 20px; font-size: 13px; color: #e08a8a; margin-top: 10px; margin-bottom: 0; }
   .modal { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 50; display: none; flex-direction: column; }
   .modal.open { display: flex; }
   .modal .mhead { padding: 14px; text-align: center; border-bottom: 1px solid #1d4a35; }
@@ -56,6 +67,15 @@
 </style>
 </head>
 <body>
+<div id="lock">
+  <div class="lockbox">
+    <h2>WEBSITE MANAGER</h2>
+    <p>Enter the password to manage the website.</p>
+    <input id="lockPw" type="password" placeholder="Password" autocomplete="current-password">
+    <button class="btn" id="unlock" style="width:100%">Unlock</button>
+    <p id="lockErr"></p>
+  </div>
+</div>
 <header>
   <h1>WEBSITE MANAGER</h1>
   <div class="tabs">
@@ -90,8 +110,15 @@
     <div class="grid" id="previewGrid"></div>
   </div>
   <div class="pw">
-    <input id="pw" type="password" placeholder="Password" autocomplete="off">
-    <p>Same password as the photo portal. This browser remembers it. Publishing rebuilds the website &mdash; live in a few minutes.</p>
+    <h3>PASSWORD</h3>
+    <input id="newPw1" type="password" placeholder="New password (min 8 characters)" autocomplete="new-password">
+    <input id="newPw2" type="password" placeholder="Repeat new password" autocomplete="new-password">
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn ghost" id="changePw">Change password</button>
+      <button class="btn ghost" id="lockBtn">Lock</button>
+    </div>
+    <p id="pwMsg"></p>
+    <p>Changing the password takes effect immediately, on this manager and the review-portal manager. Publishing rebuilds the website &mdash; live in a few minutes.</p>
   </div>
 </div>
 <div class="modal" id="picker">
@@ -102,7 +129,7 @@
 <footer><a href="/review/admin.html">Manage the review portal &rarr;</a></footer>
 
 <script>
-var GH = 'https://api.github.com/repos/snprestore/Lowerylandcare/contents';
+var GH = 'https://api.github.com/repos/LoweryLandworks/lowerylandcare/contents';
 var SUPABASE_URL = 'https://gcdpjmxwinsrrekqzfdb.supabase.co';
 var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjZHBqbXh3aW5zcnJla3F6ZmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMjc4NzQsImV4cCI6MjA4MjcwMzg3NH0.SBDSVFldcPSj-kEkbB8HRoHjAMZiB-OoLHwcbveiiHE';
 var IMG_EXT = /\.(jpe?g|png|webp)$/i, VID_EXT = /\.(mp4|mov|webm)$/i;
@@ -283,15 +310,68 @@ function show(which){
 document.getElementById('tabWork').onclick = function(){ show('Work'); };
 document.getElementById('tabMedia').onclick = function(){ show('Media'); };
 document.getElementById('previewBtn').onclick = function(){ show(document.getElementById('viewPreview').style.display === 'none' ? 'Preview' : 'Work'); };
-var pwInput = document.getElementById('pw');
-pwInput.value = localStorage.getItem('llw_pw') || '';
-pwInput.addEventListener('change', function(){ localStorage.setItem('llw_pw', pwInput.value); });
+/* ---------- password gate ---------- */
+var SESSION_KEY = 'llw_session_pw';
+function rpc(fn, args) {
+  return fetch(SUPABASE_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(args)
+  }).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+}
+function getPw(){ try { return sessionStorage.getItem(SESSION_KEY) || ''; } catch(e){ return ''; } }
+function setPw(pw){ try { sessionStorage.setItem(SESSION_KEY, pw); } catch(e){} }
+function clearPw(){ try { sessionStorage.removeItem(SESSION_KEY); } catch(e){} }
+function showLock(){ document.getElementById('lock').style.display = 'flex'; }
+function hideLock(){ document.getElementById('lock').style.display = 'none'; }
+function unlockWith(pw, done) {
+  rpc('lowery_verify_password', {p_password: pw}).then(function(ok){ done(ok === true); }, function(){ done(null); });
+}
+document.getElementById('unlock').addEventListener('click', function(){
+  var pw = document.getElementById('lockPw').value;
+  if (!pw) return;
+  var b = document.getElementById('unlock'); b.disabled = true;
+  var e = document.getElementById('lockErr'); e.textContent = 'Checking...';
+  unlockWith(pw, function(ok){
+    b.disabled = false;
+    if (ok === true) { setPw(pw); try { localStorage.removeItem('llw_pw'); } catch(x){} hideLock(); loadAll(); }
+    else if (ok === false) { e.textContent = 'Wrong password. Try again.'; document.getElementById('lockPw').value = ''; document.getElementById('lockPw').focus(); }
+    else e.textContent = 'Could not reach the server. Check your connection.';
+  });
+});
+document.getElementById('lockPw').addEventListener('keydown', function(ev){ if (ev.key === 'Enter') document.getElementById('unlock').click(); });
+document.getElementById('lockBtn').addEventListener('click', function(){ clearPw(); location.reload(); });
+document.getElementById('changePw').addEventListener('click', function(){
+  var a = document.getElementById('newPw1').value, b2 = document.getElementById('newPw2').value;
+  var m = document.getElementById('pwMsg'); m.className = '';
+  if (a.length < 8) { m.textContent = 'New password must be at least 8 characters.'; m.className = 'err'; return; }
+  if (a !== b2) { m.textContent = 'The two passwords do not match.'; m.className = 'err'; return; }
+  if (!confirm('Change the manager password now?\n\nIt takes effect immediately on both managers.')) return;
+  m.textContent = 'Changing...';
+  rpc('lowery_change_password', {p_current: getPw(), p_new: a}).then(function(ok){
+    if (ok === true) {
+      setPw(a);
+      document.getElementById('newPw1').value = ''; document.getElementById('newPw2').value = '';
+      m.textContent = 'Password changed.'; m.className = 'ok';
+    } else { m.textContent = 'Could not change it. Lock and unlock, then try again.'; m.className = 'err'; }
+  }, function(){ m.textContent = 'Could not reach the server.'; m.className = 'err'; });
+});
+function boot(){
+  var legacy = '';
+  try { legacy = localStorage.getItem('llw_pw') || ''; } catch(e){}
+  var pw = getPw() || legacy;
+  if (!pw) { showLock(); return; }
+  document.getElementById('lockErr').textContent = 'Checking...';
+  unlockWith(pw, function(ok){
+    if (ok === true) { setPw(pw); try { localStorage.removeItem('llw_pw'); } catch(e){} hideLock(); loadAll(); }
+    else { clearPw(); try { localStorage.removeItem('llw_pw'); } catch(e){} showLock(); document.getElementById('lockErr').textContent = ok === false ? 'Password was changed. Enter the new one.' : ''; }
+  });
+}
 
 document.getElementById('publish').addEventListener('click', function(){
   if (!dirty) return;
-  var pw = pwInput.value.trim();
-  if (!pw) { alert('Enter the password first.'); pwInput.focus(); return; }
-  localStorage.setItem('llw_pw', pw);
+  var pw = getPw();
+  if (!pw) { showLock(); return; }
   if (!confirm('Publish to the live website?\n\n' + items.length + ' items in Our Work, ' + pendingUploads.length + ' new files, ' + pendingDeletes.length + ' deleted.\n\nThe site rebuilds — live in a few minutes.')) return;
   var btn = document.getElementById('publish'); btn.disabled = true;
   status('Sending to the publisher...', '');
@@ -314,4 +394,4 @@ document.getElementById('publish').addEventListener('click', function(){
 document.getElementById('discard').addEventListener('click', function(){
   if (!dirty || confirm('Discard all unpublished changes?')) { show('Work'); loadAll(); }
 });
-loadAll();
+boot();
