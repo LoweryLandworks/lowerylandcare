@@ -30,6 +30,9 @@ export function Header() {
           <Link href="/about" className="hover:text-olive">
             About
           </Link>
+          <Link href="/our-work" className="hover:text-olive">
+            Our Work
+          </Link>
           <a href={`tel:${SITE.phoneTel}`} className="hover:text-olive">
             {SITE.phoneDisplay}
           </a>
@@ -66,6 +69,9 @@ export function Header() {
         </Link>
         <Link href="/about" className="py-1">
           About
+        </Link>
+        <Link href="/our-work" className="py-1">
+          Our Work
         </Link>
         <Link href="/quote" className="py-1">
           Quote
