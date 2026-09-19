@@ -36,24 +36,12 @@
     "label": "logo flagstone rock feature"
   },
   {
-    "src": "review/before-fence-bed-rocks.jpg",
-    "label": "before fence bed rocks"
-  },
-  {
-    "src": "review/after-porch-gravel-north.jpg",
-    "label": "after porch gravel north"
-  },
-  {
     "src": "review/logo-drainage-trench-fence.jpg",
     "label": "logo drainage trench fence"
   },
   {
     "src": "review/logo-playground-turf.jpg",
     "label": "logo playground turf"
-  },
-  {
-    "src": "review/after-gazebo-bed.jpg",
-    "label": "after gazebo bed"
   },
   {
     "src": "review/logo-wall-wash-composite.jpg",
@@ -72,10 +60,6 @@
     "label": "logo flagstone walkway install"
   },
   {
-    "src": "review/after-stone-stairs-bed.jpg",
-    "label": "after stone stairs bed"
-  },
-  {
     "src": "review/logo-stone-paver-garden.jpg",
     "label": "logo stone paver garden"
   },
@@ -92,36 +76,16 @@
     "label": "logo parking lot striping"
   },
   {
-    "src": "review/after-entry-brick-bed.jpg",
-    "label": "after entry brick bed"
+    "src": "review/before-retaining-wall-bed.jpg",
+    "label": "before retaining wall bed"
   },
   {
-    "src": "review/after-pool-fence-corner.jpg",
-    "label": "after pool fence corner"
+    "src": "review/before-side-walkway.jpg",
+    "label": "before side walkway"
   },
   {
-    "src": "review/after-pool-fence-slide.jpg",
-    "label": "after pool fence slide"
-  },
-  {
-    "src": "review/after-pool-fence-trampoline.jpg",
-    "label": "after pool fence trampoline"
-  },
-  {
-    "src": "review/after-pool-fence-trees.jpg",
-    "label": "after pool fence trees"
-  },
-  {
-    "src": "review/after-porch-brick-edging-side.jpg",
-    "label": "after porch brick edging side"
-  },
-  {
-    "src": "review/after-porch-gravel-curve.jpg",
-    "label": "after porch gravel curve"
-  },
-  {
-    "src": "review/after-porch-gravel-door.jpg",
-    "label": "after porch gravel door"
+    "src": "review/before-fence-bed-rocks.jpg",
+    "label": "before fence bed rocks"
   },
   {
     "src": "review/before-fence-bed-pool-net.jpg",
@@ -130,6 +94,10 @@
   {
     "src": "review/before-fence-bed-slide.jpg",
     "label": "before fence bed slide"
+  },
+  {
+    "src": "review/before-porch-bed.jpg",
+    "label": "before porch bed"
   },
   {
     "src": "review/before-garage-porch-wide.jpg",
@@ -148,20 +116,68 @@
     "label": "before pool equipment area"
   },
   {
-    "src": "review/before-porch-bed.jpg",
-    "label": "before porch bed"
+    "src": "review/before-stone-wall-corner-bed.jpg",
+    "label": "before stone wall corner bed"
+  },
+  {
+    "src": "review/logo-house-walkway.jpg",
+    "label": "logo house walkway"
+  },
+  {
+    "src": "review/after-porch-gravel-north.jpg",
+    "label": "after porch gravel north"
+  },
+  {
+    "src": "review/after-gazebo-bed.jpg",
+    "label": "after gazebo bed"
+  },
+  {
+    "src": "review/after-stone-stairs-bed.jpg",
+    "label": "after stone stairs bed"
+  },
+  {
+    "src": "review/after-pool-fence-corner.jpg",
+    "label": "after pool fence corner"
+  },
+  {
+    "src": "review/after-pool-fence-slide.jpg",
+    "label": "after pool fence slide"
+  },
+  {
+    "src": "review/after-pool-fence-trampoline.jpg",
+    "label": "after pool fence trampoline"
+  },
+  {
+    "src": "review/after-pool-fence-trees.jpg",
+    "label": "after pool fence trees"
+  },
+  {
+    "src": "review/after-porch-gravel-curve.jpg",
+    "label": "after porch gravel curve"
+  },
+  {
+    "src": "review/after-porch-gravel-door.jpg",
+    "label": "after porch gravel door"
   },
   {
     "src": "review/before-porch-brick-edging.jpg",
     "label": "before porch brick edging"
   },
   {
-    "src": "review/before-retaining-wall-bed.jpg",
-    "label": "before retaining wall bed"
+    "src": "review/logo-porch-trench.jpg",
+    "label": "logo porch trench"
   },
   {
-    "src": "review/before-side-walkway.jpg",
-    "label": "before side walkway"
+    "src": "review/logo-window-brick-bed.jpg",
+    "label": "logo window brick bed"
+  },
+  {
+    "src": "review/after-porch-brick-edging-side.jpg",
+    "label": "after porch brick edging side"
+  },
+  {
+    "src": "review/after-entry-brick-bed.jpg",
+    "label": "after entry brick bed"
   },
   {
     "src": "review/before-stone-patio-bed.jpg",
@@ -170,10 +186,6 @@
   {
     "src": "review/before-stone-stairs-bed.jpg",
     "label": "before stone stairs bed"
-  },
-  {
-    "src": "review/before-stone-wall-corner-bed.jpg",
-    "label": "before stone wall corner bed"
   },
   {
     "src": "review/logo-brick-wall-drainage.jpg",
@@ -204,16 +216,8 @@
     "label": "logo house driveway composite"
   },
   {
-    "src": "review/logo-house-walkway.jpg",
-    "label": "logo house walkway"
-  },
-  {
     "src": "review/logo-pool-trench-pipe.jpg",
     "label": "logo pool trench pipe"
-  },
-  {
-    "src": "review/logo-porch-trench.jpg",
-    "label": "logo porch trench"
   },
   {
     "src": "review/logo-pressure-wash-walkway.jpg",
@@ -230,10 +234,6 @@
   {
     "src": "review/logo-tree-ring-bed.jpg",
     "label": "logo tree ring bed"
-  },
-  {
-    "src": "review/logo-window-brick-bed.jpg",
-    "label": "logo window brick bed"
   },
   {
     "src": "review/sidewalk-wash-before-after-watermarked.jpg",
