@@ -36,12 +36,32 @@
     "label": "logo flagstone rock feature"
   },
   {
-    "src": "review/logo-outdoor-kitchen.jpg",
-    "label": "logo outdoor kitchen"
+    "src": "review/before-fence-bed-rocks.jpg",
+    "label": "before fence bed rocks"
+  },
+  {
+    "src": "review/after-porch-gravel-north.jpg",
+    "label": "after porch gravel north"
+  },
+  {
+    "src": "review/logo-drainage-trench-fence.jpg",
+    "label": "logo drainage trench fence"
+  },
+  {
+    "src": "review/logo-playground-turf.jpg",
+    "label": "logo playground turf"
   },
   {
     "src": "review/after-gazebo-bed.jpg",
     "label": "after gazebo bed"
+  },
+  {
+    "src": "review/logo-wall-wash-composite.jpg",
+    "label": "logo wall wash composite"
+  },
+  {
+    "src": "review/logo-outdoor-kitchen.jpg",
+    "label": "logo outdoor kitchen"
   },
   {
     "src": "review/logo-flagstone-path-backyard.jpg",
@@ -58,10 +78,6 @@
   {
     "src": "review/logo-stone-paver-garden.jpg",
     "label": "logo stone paver garden"
-  },
-  {
-    "src": "review/logo-playground-turf.jpg",
-    "label": "logo playground turf"
   },
   {
     "src": "review/logo-warehouse-floor.jpg",
@@ -108,16 +124,8 @@
     "label": "after porch gravel door"
   },
   {
-    "src": "review/after-porch-gravel-north.jpg",
-    "label": "after porch gravel north"
-  },
-  {
     "src": "review/before-fence-bed-pool-net.jpg",
     "label": "before fence bed pool net"
-  },
-  {
-    "src": "review/before-fence-bed-rocks.jpg",
-    "label": "before fence bed rocks"
   },
   {
     "src": "review/before-fence-bed-slide.jpg",
@@ -180,10 +188,6 @@
     "label": "logo commercial lawn"
   },
   {
-    "src": "review/logo-drainage-trench-fence.jpg",
-    "label": "logo drainage trench fence"
-  },
-  {
     "src": "review/logo-excavation-bobcat.jpg",
     "label": "logo excavation bobcat"
   },
@@ -226,10 +230,6 @@
   {
     "src": "review/logo-tree-ring-bed.jpg",
     "label": "logo tree ring bed"
-  },
-  {
-    "src": "review/logo-wall-wash-composite.jpg",
-    "label": "logo wall wash composite"
   },
   {
     "src": "review/logo-window-brick-bed.jpg",
