@@ -40,14 +40,6 @@
     "label": "logo drainage trench fence"
   },
   {
-    "src": "review/logo-playground-turf.jpg",
-    "label": "logo playground turf"
-  },
-  {
-    "src": "review/logo-wall-wash-composite.jpg",
-    "label": "logo wall wash composite"
-  },
-  {
     "src": "review/logo-outdoor-kitchen.jpg",
     "label": "logo outdoor kitchen"
   },
@@ -196,10 +188,6 @@
     "label": "logo commercial building"
   },
   {
-    "src": "review/logo-commercial-lawn.jpg",
-    "label": "logo commercial lawn"
-  },
-  {
     "src": "review/logo-excavation-bobcat.jpg",
     "label": "logo excavation bobcat"
   },
@@ -234,9 +222,5 @@
   {
     "src": "review/logo-tree-ring-bed.jpg",
     "label": "logo tree ring bed"
-  },
-  {
-    "src": "review/sidewalk-wash-before-after-watermarked.jpg",
-    "label": "sidewalk wash before after watermarked"
   }
 ]
