@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website Manager &mdash; Lowery Landworks</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0e2a1f; color: #f3ead3; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { padding: 18px 16px 6px; text-align: center; position: sticky; top: 0; background: #0e2a1f; z-index: 10; border-bottom: 1px solid #1d4a35; }
+  header h1 { font-size: 19px; letter-spacing: 1px; color: #d4af5a; }
+  .tabs { display: flex; gap: 8px; justify-content: center; margin-top: 10px; padding-bottom: 10px; }
+  .tab { background: transparent; color: #d4af5a; border: 1px solid #1d4a35; font-size: 15px; font-weight: 700; padding: 10px 22px; border-radius: 10px; cursor: pointer; }
+  .tab.active { background: #d4af5a; color: #0e2a1f; border-color: #d4af5a; }
+  .bar { display: flex; gap: 8px; justify-content: center; padding: 10px 0; flex-wrap: wrap; }
+  button { font-family: inherit; }
+  .btn { background: #d4af5a; color: #0e2a1f; border: none; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 10px; cursor: pointer; }
+  .btn:disabled { opacity: .35; cursor: default; }
+  .btn.ghost { background: transparent; color: #d4af5a; border: 1px solid #d4af5a; }
+  #status { text-align: center; padding: 8px 12px; font-size: 14px; min-height: 40px; }
+  #status.ok { color: #9fd6a8; }
+  #status.err { color: #e08a8a; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 14px 30px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .card { background: #123526; border: 2px solid #1d4a35; border-radius: 8px; overflow: hidden; position: relative; }
+  .card img, .card video { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .card .num { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,.68); color: #d4af5a; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .card .vbadge { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,.68); color: #d4af5a; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .card input { width: 100%; font-size: 13px; padding: 8px; border: none; border-top: 1px solid #1d4a35; background: #0e2a1f; color: #f3ead3; }
+  .card .ctl { display: flex; border-top: 1px solid #1d4a35; }
+  .card .ctl button { flex: 1; background: none; border: none; color: #d4af5a; font-size: 16px; padding: 9px 0; cursor: pointer; }
+  .card .ctl button + button { border-left: 1px solid #1d4a35; }
+  .card .ctl button.del { color: #e08a8a; }
+  .card.new { border-color: #d4af5a; }
+  .uploadrow { text-align: center; padding: 12px 0; }
+  .uploadrow label { display: inline-block; background: transparent; color: #d4af5a; border: 1px dashed #d4af5a; font-weight: 700; font-size: 15px; padding: 14px 26px; border-radius: 10px; cursor: pointer; margin: 4px; }
+  .uploadrow input { display: none; }
+  .hint { font-size: 12px; opacity: .7; text-align: center; margin: 6px 0 12px; }
+  .pw { max-width: 560px; margin: 0 auto; padding: 6px 0 20px; text-align: center; }
+  .pw input { width: 100%; font-size: 16px; padding: 12px; border-radius: 8px; border: 1px solid #1d4a35; background: #123526; color: #f3ead3; text-align: center; }
+  .pw p { font-size: 12px; opacity: .7; margin-top: 6px; }
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.88); z-index: 50; display: none; flex-direction: column; }
+  .modal.open { display: flex; }
+  .modal .mhead { padding: 14px; text-align: center; border-bottom: 1px solid #1d4a35; }
+  .modal .mhead h2 { color: #d4af5a; font-size: 16px; }
+  .modal .mhead p { font-size: 12px; opacity: .7; margin-top: 4px; }
+  .modal .mbody { flex: 1; overflow-y: auto; padding: 14px; }
+  .modal .mfoot { padding: 12px; text-align: center; border-top: 1px solid #1d4a35; display: flex; gap: 8px; justify-content: center; }
+  .pickable { cursor: pointer; }
+  .pickable.picked { border-color: #d4af5a; box-shadow: 0 0 0 2px #d4af5a; }
+  .pcard { background: #fff; color: #1a1a1a; border-radius: 12px; overflow: hidden; }
+  .pcard img, .pcard video { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .pcard p { padding: 10px 12px; font-size: 13px; font-weight: 700; color: #0e2a1f; }
+  footer { text-align: center; padding: 0 16px 30px; font-size: 12px; opacity: .6; }
+  footer a { color: #d4af5a; }
+</style>
+</head>
+<body>
+<header>
+  <h1>WEBSITE MANAGER</h1>
+  <div class="tabs">
+    <button class="tab active" id="tabWork">Our Work</button>
+    <button class="tab" id="tabMedia">Photos &amp; Videos</button>
+  </div>
+  <div class="bar">
+    <button class="btn" id="publish" disabled>Publish changes</button>
+    <button class="btn ghost" id="previewBtn">Preview</button>
+    <button class="btn ghost" id="discard" disabled>Discard</button>
+  </div>
+</header>
+<div id="status"></div>
+<div class="wrap">
+  <div id="viewWork">
+    <p class="hint">This builds the <b>Our Work</b> page on the website. Add photos and videos, name each one, drag the order with &#9664; &#9654;.</p>
+    <div class="grid" id="workGrid"></div>
+    <div class="uploadrow"><label id="addItemsBtn" style="cursor:pointer">+ Add photos / videos</label></div>
+  </div>
+  <div id="viewMedia" style="display:none">
+    <div class="uploadrow">
+      <label for="imgInput">+ Add photos</label>
+      <input id="imgInput" type="file" accept="image/*" multiple>
+      <label for="vidInput">+ Add videos</label>
+      <input id="vidInput" type="file" accept="video/mp4,video/quicktime,video/webm" multiple>
+    </div>
+    <p class="hint" id="mediaHint"></p>
+    <div class="grid" id="mediaGrid"></div>
+  </div>
+  <div id="viewPreview" style="display:none">
+    <p class="hint">How the Our Work page will look.</p>
+    <div class="grid" id="previewGrid"></div>
+  </div>
+  <div class="pw">
+    <input id="pw" type="password" placeholder="Password" autocomplete="off">
+    <p>Same password as the photo portal. This browser remembers it. Publishing rebuilds the website &mdash; live in a few minutes.</p>
+  </div>
+</div>
+<div class="modal" id="picker">
+  <div class="mhead"><h2>Add to Our Work</h2><p>Tap photos or videos to select, then Done.</p></div>
+  <div class="mbody"><div class="grid" id="pickerGrid"></div></div>
+  <div class="mfoot"><button class="btn" id="pickerDone">Done</button><button class="btn ghost" id="pickerCancel">Cancel</button></div>
+</div>
+<footer><a href="/review/admin.html">Manage the review portal &rarr;</a></footer>
+
+<script>
+var GH = 'https://api.github.com/repos/snprestore/Lowerylandcare/contents';
+var SUPABASE_URL = 'https://gcdpjmxwinsrrekqzfdb.supabase.co';
+var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjZHBqbXh3aW5zcnJla3F6ZmRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMjc4NzQsImV4cCI6MjA4MjcwMzg3NH0.SBDSVFldcPSj-kEkbB8HRoHjAMZiB-OoLHwcbveiiHE';
+var IMG_EXT = /\.(jpe?g|png|webp)$/i, VID_EXT = /\.(mp4|mov|webm)$/i;
+
+var items = [];            // {src, name} — the Our Work gallery
+var media = [];            // {folder, name, url, isNew?}
+var pendingUploads = [];   // {filename, folder, b64, dataUrl}
+var pendingDeletes = [];   // {filename, folder}
+var dirty = false;
+
+function status(m, c) { var s = document.getElementById('status'); s.textContent = m; s.className = c || ''; }
+function markDirty() { dirty = true; document.getElementById('publish').disabled = false; document.getElementById('discard').disabled = false; status('You have unpublished changes.', ''); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function isVid(src){ return VID_EXT.test(src || ''); }
+function mediaUrl(m){ return m.isNew ? m.dataUrl : '/' + m.folder + '/' + m.name; }
+function deleted(m){ return pendingDeletes.some(function(d){ return d.filename === m.name && d.folder === m.folder; }); }
+
+function loadAll() {
+  status('Loading...', '');
+  var wj = fetch('our-work.json').then(function(r){ return r.ok ? r.json() : {items:[]}; }).catch(function(){ return {items:[]}; });
+  var gm = fetch(GH + '/public/gallery?ref=main').then(function(r){ return r.json(); }).catch(function(){ return []; });
+  var vm = fetch(GH + '/public/videos?ref=main').then(function(r){ return r.json(); }).catch(function(){ return []; });
+  Promise.all([wj, gm, vm]).then(function(res){
+    items = (res[0].items || []).map(function(p){ return {src: p.src, name: p.name || ''}; });
+    media = [];
+    (Array.isArray(res[1]) ? res[1] : []).forEach(function(f){ if (f.type === 'file' && IMG_EXT.test(f.name)) media.push({folder:'gallery', name:f.name}); });
+    (Array.isArray(res[2]) ? res[2] : []).forEach(function(f){ if (f.type === 'file' && VID_EXT.test(f.name)) media.push({folder:'videos', name:f.name}); });
+    pendingUploads = []; pendingDeletes = []; dirty = false;
+    document.getElementById('publish').disabled = true;
+    document.getElementById('discard').disabled = true;
+    renderWork(); renderMedia(); status('', '');
+  }).catch(function(){ status('Could not load. Check your connection and refresh.', 'err'); });
+}
+
+/* ---------- Our Work constructor ---------- */
+function thumbHtml(src) {
+  return isVid(src)
+    ? '<video src="'+src+'" muted playsinline preload="metadata"></video><span class="vbadge">VIDEO</span>'
+    : '<img loading="lazy" src="'+src+'" alt="">';
+}
+function renderWork() {
+  var g = document.getElementById('workGrid'); g.innerHTML = '';
+  if (!items.length) g.innerHTML = '<p class="hint" style="grid-column:1/-1">Empty &mdash; tap "+ Add photos / videos" to build the page.</p>';
+  items.forEach(function(it, i){
+    var c = document.createElement('div'); c.className = 'card';
+    c.innerHTML = thumbHtml(it.src) + '<span class="num">' + (i+1) + '</span>' +
+      '<input data-i="'+i+'" placeholder="Name &mdash; e.g. Flagstone patio in Frisco" value="'+esc(it.name)+'">' +
+      '<div class="ctl"><button data-a="left" data-i="'+i+'">&#9664;</button>' +
+      '<button data-a="right" data-i="'+i+'">&#9654;</button>' +
+      '<button class="del" data-a="del" data-i="'+i+'">&#10005;</button></div>';
+    g.appendChild(c);
+  });
+  g.querySelectorAll('input').forEach(function(inp){
+    inp.oninput = function(){ items[+inp.dataset.i].name = inp.value; markDirty(); };
+  });
+  g.querySelectorAll('.ctl button').forEach(function(b){
+    b.onclick = function(){
+      var i = +b.dataset.i, a = b.dataset.a;
+      if (a === 'del') { if (!confirm('Remove this from Our Work?\n\n' + (items[i].name || items[i].src))) return; items.splice(i,1); }
+      else { var j = i + (a === 'left' ? -1 : 1); if (j < 0 || j >= items.length) return; var t = items[i]; items[i] = items[j]; items[j] = t; }
+      renderWork(); markDirty();
+    };
+  });
+}
+document.getElementById('addItemsBtn').onclick = function(){
+  var g = document.getElementById('pickerGrid'); g.innerHTML = '';
+  var list = media.filter(function(m){ return !deleted(m); });
+  if (!list.length) g.innerHTML = '<p class="hint">No media yet &mdash; add photos or videos in the Photos &amp; Videos tab first.</p>';
+  list.forEach(function(m){
+    var src = mediaUrl(m);
+    var c = document.createElement('div'); c.className = 'card pickable';
+    c.innerHTML = thumbHtml(src);
+    c.onclick = function(){ c.classList.toggle('picked'); };
+    c.dataset.src = src; c.dataset.name = m.name;
+    g.appendChild(c);
+  });
+  document.getElementById('picker').classList.add('open');
+};
+document.getElementById('pickerDone').onclick = function(){
+  document.querySelectorAll('#pickerGrid .picked').forEach(function(c){
+    var nm = c.dataset.name.replace(/\.[a-z0-9]+$/i, '').replace(/[-_]+/g, ' ');
+    items.push({src: c.dataset.src, name: nm});
+  });
+  document.getElementById('picker').classList.remove('open');
+  renderWork(); markDirty();
+};
+document.getElementById('pickerCancel').onclick = function(){ document.getElementById('picker').classList.remove('open'); };
+
+/* ---------- media library ---------- */
+function renderMedia() {
+  var g = document.getElementById('mediaGrid'); g.innerHTML = '';
+  var list = media.filter(function(m){ return !deleted(m); });
+  document.getElementById('mediaHint').textContent = list.length + ' files stored. Photos and videos uploaded here can be added to Our Work. Max 10 files per publish.';
+  list.forEach(function(m){
+    var src = mediaUrl(m);
+    var c = document.createElement('div'); c.className = 'card' + (m.isNew ? ' new' : '');
+    c.innerHTML = thumbHtml(src) + '<button class="del" aria-label="Delete" style="position:absolute;top:4px;right:26px;background:rgba(0,0,0,.7);color:#e08a8a;border:none;font-size:14px;width:28px;height:28px;border-radius:50%;cursor:pointer">&#10005;</button>' +
+      '<div style="font-size:10px;padding:4px 6px;opacity:.7;word-break:break-all">'+esc(m.name)+'</div>';
+    c.querySelector('.del').onclick = function(){
+      if (!confirm('Delete this file from the website?\n\n' + m.name)) return;
+      if (m.isNew) {
+        media.splice(media.indexOf(m), 1);
+        pendingUploads = pendingUploads.filter(function(u){ return !(u.filename === m.name && u.folder === m.folder); });
+      } else pendingDeletes.push({filename: m.name, folder: m.folder});
+      items = items.filter(function(it){ return it.src !== src; });
+      renderMedia(); renderWork(); markDirty();
+    };
+    g.appendChild(c);
+  });
+}
+function sanitize(name){ return name.toLowerCase().replace(/\.[a-z0-9]+$/,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'file'; }
+function addUpload(file, folder, dataUrl, b64) {
+  var ext = folder === 'videos' ? '.mp4' : '.jpg';
+  var filename = 'site-' + Date.now() + '-' + Math.floor(Math.random()*1e4) + '-' + sanitize(file.name) + ext;
+  pendingUploads.push({filename: filename, folder: folder, b64: b64});
+  media.push({folder: folder, name: filename, dataUrl: dataUrl, isNew: true});
+}
+document.getElementById('imgInput').addEventListener('change', function(e){
+  var files = Array.prototype.slice.call(e.target.files || []).slice(0, 10);
+  if (!files.length) return;
+  status('Preparing ' + files.length + ' photo(s)...', '');
+  var done = 0;
+  files.forEach(function(f){
+    var rd = new FileReader();
+    rd.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var max = 1600, w = img.width, h = img.height;
+        if (Math.max(w,h) > max) { var s = max/Math.max(w,h); w = Math.round(w*s); h = Math.round(h*s); }
+        var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+        cv.getContext('2d').drawImage(img, 0, 0, w, h);
+        var du = cv.toDataURL('image/jpeg', 0.85);
+        addUpload(f, 'gallery', du, du.split(',')[1]);
+        if (++done === files.length) { renderMedia(); markDirty(); status('', ''); }
+      };
+      img.onerror = function(){ if (++done === files.length) { renderMedia(); markDirty(); status('', ''); } };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+  });
+  e.target.value = '';
+});
+document.getElementById('vidInput').addEventListener('change', function(e){
+  var files = Array.prototype.slice.call(e.target.files || []).slice(0, 10);
+  if (!files.length) return;
+  var ok = true;
+  files.forEach(function(f){ if (f.size > 50*1024*1024) { ok = false; alert(f.name + ' is over 50 MB.'); } });
+  if (!ok) { e.target.value = ''; return; }
+  status('Preparing ' + files.length + ' video(s)...', '');
+  var done = 0;
+  files.forEach(function(f){
+    var rd = new FileReader();
+    rd.onload = function(){ addUpload(f, 'videos', rd.result, rd.result.split(',')[1]); if (++done === files.length) { renderMedia(); markDirty(); status('', ''); } };
+    rd.readAsDataURL(f);
+  });
+  e.target.value = '';
+});
+
+/* ---------- preview ---------- */
+function renderPreview() {
+  var g = document.getElementById('previewGrid'); g.innerHTML = '';
+  if (!items.length) g.innerHTML = '<p class="hint" style="grid-column:1/-1">Nothing to preview yet.</p>';
+  items.forEach(function(it){
+    var d = document.createElement('div'); d.className = 'pcard';
+    d.innerHTML = (isVid(it.src) ? '<video src="'+it.src+'" muted playsinline></video>' : '<img src="'+it.src+'" alt="">') +
+      '<p>' + esc(it.name || 'Untitled') + '</p>';
+    g.appendChild(d);
+  });
+}
+
+/* ---------- tabs / publish ---------- */
+function show(which){
+  ['Work','Media','Preview'].forEach(function(t){ document.getElementById('view'+t).style.display = t === which ? '' : 'none'; });
+  document.getElementById('tabWork').classList.toggle('active', which === 'Work');
+  document.getElementById('tabMedia').classList.toggle('active', which === 'Media');
+  if (which === 'Preview') renderPreview();
+}
+document.getElementById('tabWork').onclick = function(){ show('Work'); };
+document.getElementById('tabMedia').onclick = function(){ show('Media'); };
+document.getElementById('previewBtn').onclick = function(){ show(document.getElementById('viewPreview').style.display === 'none' ? 'Preview' : 'Work'); };
+var pwInput = document.getElementById('pw');
+pwInput.value = localStorage.getItem('llw_pw') || '';
+pwInput.addEventListener('change', function(){ localStorage.setItem('llw_pw', pwInput.value); });
+
+document.getElementById('publish').addEventListener('click', function(){
+  if (!dirty) return;
+  var pw = pwInput.value.trim();
+  if (!pw) { alert('Enter the password first.'); pwInput.focus(); return; }
+  localStorage.setItem('llw_pw', pw);
+  if (!confirm('Publish to the live website?\n\n' + items.length + ' items in Our Work, ' + pendingUploads.length + ' new files, ' + pendingDeletes.length + ' deleted.\n\nThe site rebuilds — live in a few minutes.')) return;
+  var btn = document.getElementById('publish'); btn.disabled = true;
+  status('Sending to the publisher...', '');
+  var payload = {
+    target: 'our-work', password: pw,
+    items: items.map(function(it){ return {src: it.src, name: it.name || ''}; }),
+    uploads: pendingUploads.map(function(u){ return {filename: u.filename, folder: u.folder, b64: u.b64}; }),
+    deletes: pendingDeletes
+  };
+  fetch(SUPABASE_URL + '/rest/v1/lowery_portal_requests', {
+    method: 'POST',
+    headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ payload: payload })
+  }).then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    status('Sent! The website rebuilds and goes live in a few minutes.', 'ok');
+    document.getElementById('discard').disabled = true; dirty = false;
+  }).catch(function(e){ status('Could not send: ' + e.message, 'err'); btn.disabled = false; });
+});
+document.getElementById('discard').addEventListener('click', function(){
+  if (!dirty || confirm('Discard all unpublished changes?')) { show('Work'); loadAll(); }
+});
+loadAll();
