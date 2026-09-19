@@ -15,8 +15,8 @@ export default function OurWorkPage() {
     <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <h1 className="display text-4xl text-forest sm:text-5xl">Our Work</h1>
       <p className="mt-3 max-w-xl text-base text-ink/75">
-        Real projects across the Dallas–Fort Worth metroplex. Tap any photo or
-        video to view it full-screen.
+        Real projects across the Dallas–Fort Worth metroplex. Use the arrows to
+        browse every photo.
       </p>
       <div className="mt-8">
         <OurWorkGallery items={items} />
