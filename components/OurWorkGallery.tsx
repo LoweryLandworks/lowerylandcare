@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface WorkItem {
   src: string;
@@ -12,24 +12,23 @@ function isVideo(src: string) {
 }
 
 export function OurWorkGallery({ items }: { items: WorkItem[] }) {
-  const [open, setOpen] = useState<number | null>(null);
+  const [idx, setIdx] = useState(0);
+  const touchX = useRef<number | null>(null);
 
-  const close = useCallback(() => setOpen(null), []);
-  const step = useCallback(
-    (d: number) => setOpen((i) => (i === null ? i : (i + d + items.length) % items.length)),
+  const go = useCallback(
+    (d: number) =>
+      setIdx((i) => (items.length ? (i + d + items.length) % items.length : 0)),
     [items.length]
   );
 
   useEffect(() => {
-    if (open === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight") step(1);
-      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, close, step]);
+  }, [go]);
 
   if (items.length === 0) {
     return (
@@ -39,91 +38,65 @@ export function OurWorkGallery({ items }: { items: WorkItem[] }) {
     );
   }
 
-  return (
-    <>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {items.map((it, i) => (
-          <button
-            key={it.src + i}
-            onClick={() => setOpen(i)}
-            className="group overflow-hidden rounded-2xl border-2 border-forest/15 bg-white text-left"
-          >
-            <div className="relative">
-              {isVideo(it.src) ? (
-                <video src={it.src} muted playsInline preload="metadata" className="aspect-square w-full object-cover" />
-              ) : (
-                <img src={it.src} alt={it.name} loading="lazy" className="aspect-square w-full object-cover" />
-              )}
-              {isVideo(it.src) && (
-                <span className="absolute inset-0 flex items-center justify-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-black/60 text-2xl text-white">
-                    ▶
-                  </span>
-                </span>
-              )}
-            </div>
-            <p className="truncate px-4 py-3 text-sm font-bold text-forest">{it.name}</p>
-          </button>
-        ))}
-      </div>
+  const cur = items[idx];
 
-      {open !== null && items[open] && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col bg-black/95"
-          onClick={close}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="flex items-center justify-between px-4 py-3 text-white">
-            <p className="truncate text-sm font-bold">{items[open].name}</p>
-            <button onClick={close} aria-label="Close" className="px-3 py-2 text-2xl leading-none">
-              ✕
-            </button>
-          </div>
-          <div
-            className="relative flex flex-1 items-center justify-center overflow-hidden px-12"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {isVideo(items[open].src) ? (
-              <video
-                key={items[open].src}
-                src={items[open].src}
-                controls
-                autoPlay
-                playsInline
-                className="max-h-full max-w-full rounded-lg"
-              />
-            ) : (
-              <img
-                src={items[open].src}
-                alt={items[open].name}
-                className="max-h-full max-w-full rounded-lg object-contain"
-              />
-            )}
-            {items.length > 1 && (
-              <>
-                <button
-                  onClick={() => step(-1)}
-                  aria-label="Previous"
-                  className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/20 px-4 py-3 text-2xl text-white"
-                >
-                  ◀
-                </button>
-                <button
-                  onClick={() => step(1)}
-                  aria-label="Next"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/20 px-4 py-3 text-2xl text-white"
-                >
-                  ▶
-                </button>
-              </>
-            )}
-          </div>
-          <p className="py-4 text-center text-sm text-white/70">
-            {open + 1} of {items.length}
-          </p>
+  return (
+    <div className="mx-auto max-w-4xl">
+      <div
+        className="relative overflow-hidden rounded-2xl border-2 border-forest/15 bg-forest"
+        onTouchStart={(e) => {
+          touchX.current = e.changedTouches[0].clientX;
+        }}
+        onTouchEnd={(e) => {
+          if (touchX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchX.current;
+          if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+          touchX.current = null;
+        }}
+      >
+        <div className="flex aspect-[4/3] items-center justify-center sm:aspect-[16/10]">
+          {isVideo(cur.src) ? (
+            <video
+              key={cur.src}
+              src={cur.src}
+              controls
+              playsInline
+              className="max-h-full max-w-full"
+            />
+          ) : (
+            <img
+              key={cur.src}
+              src={cur.src}
+              alt={cur.name}
+              className="max-h-full max-w-full object-contain"
+            />
+          )}
         </div>
-      )}
-    </>
+        {items.length > 1 && (
+          <>
+            <button
+              onClick={() => go(-1)}
+              aria-label="Previous photo"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-4 py-3 text-xl leading-none text-white transition hover:bg-black/80"
+            >
+              &#8249;
+            </button>
+            <button
+              onClick={() => go(1)}
+              aria-label="Next photo"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/55 px-4 py-3 text-xl leading-none text-white transition hover:bg-black/80"
+            >
+              &#8250;
+            </button>
+          </>
+        )}
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-4">
+        <p className="truncate text-sm font-bold text-forest">{cur.name}</p>
+        <p className="shrink-0 text-sm text-ink/60">
+          {idx + 1} of {items.length}
+        </p>
+      </div>
+    </div>
   );
 }
