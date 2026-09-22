@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Manage The Work — Lowery Landworks</title>
+<style>
+  :root { --forest: #1e3a1f; --olive: #b7c47a; --olive-pale: #eef2da; --ink: #222; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: #f7f8f0; }
+  header { background: var(--forest); color: var(--olive-pale); padding: 18px 16px; }
+  header h1 { margin: 0; font-size: 22px; letter-spacing: .5px; }
+  header p { margin: 4px 0 0; font-size: 14px; opacity: .85; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px 16px 60px; }
+  .card { background: #fff; border: 1px solid #dfe3cf; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 10px; font-size: 18px; color: var(--forest); }
+  .hint { font-size: 14px; color: #555; line-height: 1.5; }
+  input[type="text"], input[type="password"] { width: 100%; padding: 12px; font-size: 16px; border: 1px solid #c9cfae; border-radius: 8px; }
+  button { font-size: 16px; padding: 12px 18px; border: none; border-radius: 8px; cursor: pointer; }
+  .btn-primary { background: var(--forest); color: #fff; font-weight: 700; width: 100%; }
+  .btn-primary:disabled { opacity: .5; }
+  .btn-danger { background: #a33; color: #fff; }
+  .btn-small { padding: 8px 10px; font-size: 14px; background: #eef2da; color: var(--forest); border: 1px solid #c9cfae; }
+  .item { display: flex; gap: 10px; align-items: center; border: 1px solid #e3e7d2; border-radius: 10px; padding: 8px; margin-bottom: 10px; background: #fbfcf6; }
+  .item img, .item video { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; background: #ddd; flex-shrink: 0; }
+  .item .grow { flex: 1; min-width: 0; }
+  .item .name { font-weight: 600; font-size: 14px; margin-bottom: 6px; word-break: break-word; }
+  .item .row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .status { padding: 12px; border-radius: 8px; font-size: 15px; margin-top: 12px; display: none; }
+  .status.ok { display: block; background: #e6f2df; color: #24501f; }
+  .status.err { display: block; background: #fbe4e4; color: #8a1f1f; }
+  .status.busy { display: block; background: #eef2da; color: var(--forest); }
+  ol.steps li { margin-bottom: 8px; font-size: 15px; line-height: 1.5; }
+  code { background: #eef2da; padding: 2px 6px; border-radius: 4px; font-size: 14px; }
+  .hidden { display: none !important; }
+  #drop { border: 2px dashed #9aa66b; border-radius: 12px; padding: 26px 12px; text-align: center; color: #5c6637; font-size: 16px; background: #fbfcf6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Manage “The Work”</h1>
+  <p>Add photos and videos to your website — no computer needed.</p>
+</header>
+<main>
+
+  <!-- STEP 1: token setup -->
+  <div class="card" id="setupCard">
+    <h2>Step 1 — Connect (one time only)</h2>
+    <p class="hint">This page saves changes straight to your website. To allow that, paste your website key below. <b>It stays on this phone only</b> — it is never sent anywhere except GitHub when you publish.</p>
+    <ol class="steps">
+      <li>On this phone, open <b>github.com</b> and sign in as <b>LoweryLandworks</b>.</li>
+      <li>Tap your profile picture → <b>Settings</b> → <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>.</li>
+      <li>Name it <code>The Work page</code>. Under <b>Repository access</b> choose <b>Only select repositories</b> and pick <code>lowerylandcare</code>.</li>
+      <li>Under <b>Permissions</b> set <b>Contents</b> → <b>Read and write</b>, and <b>Pull requests</b> → <b>Read and write</b>. Then <b>Generate token</b> and copy it.</li>
+      <li>Paste it here and tap Save:</li>
+    </ol>
+    <input type="password" id="tokenInput" placeholder="Paste your token here" autocomplete="off">
+    <div style="height:10px"></div>
+    <button class="btn-primary" id="saveTokenBtn">Save on this phone</button>
+    <p class="hint" style="margin-top:10px">Lost it? Just make a new one the same way and paste it again.</p>
+  </div>
+
+  <!-- STEP 2: manage -->
+  <div class="card hidden" id="manageCard">
+    <h2>Step 2 — Your photos &amp; videos</h2>
+    <p class="hint">Newest first is best — the first item is what visitors see first. Changes go live a few minutes after you tap <b>Publish</b>.</p>
+    <div id="items"></div>
+    <div id="drop">
+      <label for="fileInput" style="cursor:pointer; display:block">
+        <b>＋ Add photos or videos</b><br>
+        <span class="hint">Tap to pick from your phone (you can pick several at once)</span>
+      </label>
+      <input type="file" id="fileInput" accept="image/*,video/*" multiple class="hidden">
+    </div>
+    <div style="height:12px"></div>
+    <button class="btn-primary" id="publishBtn">Publish to the website</button>
+    <div class="status" id="status"></div>
+    <div style="height:16px"></div>
+    <button class="btn-small" id="forgetBtn">Remove the saved key from this phone</button>
+  </div>
+
+</main>
+<script>
+(function(){
+  "use strict";
+  var OWNER = "LoweryLandworks", REPO = "lowerylandcare";
+  var API = "https://api.github.com/repos/" + OWNER + "/" + REPO;
+  var TOKEN_KEY = "thework_gh_token";
+  var JSON_PATH = "public/the-work.json";
+  var MEDIA_DIR = "public/the-work/";
+
+  var token = null, items = [], pendingFiles = [], baseSha = null;
+
+  function $(id){ return document.getElementById(id); }
+  function setStatus(cls, msg){ var s = $("status"); s.className = "status " + cls; s.textContent = msg; }
+  function clearStatus(){ $("status").className = "status"; }
+
+  function gh(path, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({
+      "Accept": "application/vnd.github+json",
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
+    }, opts.headers || {});
+    return fetch(API + path, opts).then(function(r){
+      if (!r.ok) return r.json().catch(function(){ return {}; }).then(function(b){
+        throw new Error("GitHub said: " + (b.message || ("HTTP " + r.status)));
+      });
+      return r.status === 204 ? null : r.json();
+    });
+  }
+
+  function isVideo(name){ return /\.(mp4|mov|webm)$/i.test(name); }
+  function sanitize(name){
+    var parts = name.split(".");
+    var ext = parts.length > 1 ? parts.pop().toLowerCase() : "";
+    var base = parts.join(".").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    if (!base) base = "photo";
+    return base + (ext ? "." + ext : "");
+  }
+
+  function render(){
+    var box = $("items"); box.innerHTML = "";
+    var all = pendingFiles.map(function(f, i){
+      return { kind: "new", idx: i, name: f.clean, file: f.file };
+    }).concat(items.map(function(it, i){
+      return { kind: "old", idx: i, name: it.name, src: it.src };
+    }));
+    if (!all.length) {
+      box.innerHTML = '<p class="hint">Nothing here yet — add your first photos or videos below.</p>';
+      return;
+    }
+    all.forEach(function(entry, pos){
+      var div = document.createElement("div"); div.className = "item";
+      var media;
+      if (entry.kind === "new") {
+        media = document.createElement(isVideo(entry.name) ? "video" : "img");
+        media.src = URL.createObjectURL(entry.file);
+        if (media.tagName === "VIDEO") media.muted = true;
+      } else {
+        media = document.createElement(isVideo(entry.src) ? "video" : "img");
+        media.src = entry.src;
+        if (media.tagName === "VIDEO") media.muted = true;
+      }
+      div.appendChild(media);
+      var grow = document.createElement("div"); grow.className = "grow";
+      var nm = document.createElement("div"); nm.className = "name";
+      nm.textContent = (entry.kind === "new" ? "NEW: " : "") + entry.name;
+      grow.appendChild(nm);
+      var row = document.createElement("div"); row.className = "row";
+      function mkBtn(label, fn){
+        var b = document.createElement("button"); b.className = "btn-small"; b.textContent = label;
+        b.onclick = fn; row.appendChild(b); return b;
+      }
+      if (entry.kind === "old") {
+        var inp = document.createElement("input");
+        inp.type = "text"; inp.value = entry.name; inp.placeholder = "Caption";
+        inp.style.cssText = "width:100%;padding:8px;font-size:14px;border:1px solid #c9cfae;border-radius:6px;margin-bottom:6px";
+        inp.onchange = function(){ items[entry.idx].name = inp.value; };
+        grow.appendChild(inp);
+      }
+      mkBtn("↑", function(){ moveEntry(entry, -1); });
+      mkBtn("↓", function(){ moveEntry(entry, 1); });
+      mkBtn("Remove", function(){
+        if (!confirm("Remove this item?")) return;
+        if (entry.kind === "new") pendingFiles.splice(entry.idx, 1);
+        else { itemsToDelete.push(items[entry.idx].src); items.splice(entry.idx, 1); }
+        render();
+      });
+      grow.appendChild(row);
+      div.appendChild(grow);
+      box.appendChild(div);
+    });
+  }
+
+  // ordered view helpers
+  function orderedList(){
+    var list = [];
+    pendingFiles.forEach(function(f){ list.push({ kind: "new", file: f }); });
+    items.forEach(function(it){ list.push({ kind: "old", item: it }); });
+    return list;
+  }
+  function moveEntry(entry, d){
+    if (entry.kind === "new") {
+      var i = entry.idx, j = i + d;
+      if (j < 0 || j >= pendingFiles.length) return;
+      var t = pendingFiles[i]; pendingFiles[i] = pendingFiles[j]; pendingFiles[j] = t;
+    } else {
+      var a = entry.idx, b = a + d;
+      if (b < 0 || b >= items.length) return;
+      var u = items[a]; items[a] = items[b]; items[b] = u;
+    }
+    render();
+  }
+  // NOTE: move buttons reorder within their own group; final order = new files first, then existing.
+  // To keep it predictable, reorder applies per group. Good enough for a phone UI.
+
+  function loadItems(){
+    setStatus("busy", "Loading…");
+    return gh("/contents/" + JSON_PATH + "?ref=main").then(function(data){
+      var text = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ""))));
+      var parsed = JSON.parse(text);
+      items = Array.isArray(parsed.items) ? parsed.items : [];
+      baseSha = data.sha;
+      pendingFiles = [];
+      itemsToDelete = [];
+      itemsChanged = false;
+      clearStatus();
+      _origRender();
+    }).catch(function(e){
+      if (/Not Found/.test(e.message)) { items = []; baseSha = null; pendingFiles = []; render(); clearStatus(); }
+      else setStatus("err", "Could not load: " + e.message);
+    });
+  }
+
+  $("fileInput").addEventListener("change", function(e){
+    var files = Array.prototype.slice.call(e.target.files || []);
+    files.forEach(function(f){
+      if (f.size > 100 * 1024 * 1024) { alert(f.name + " is too big (over 100 MB) — pick a smaller file."); return; }
+      var clean = sanitize(f.name);
+      var n = 1, base = clean;
+      function exists(nm){
+        return pendingFiles.some(function(p){ return p.clean === nm; }) ||
+               items.some(function(it){ return it.src === "/" + "the-work/" + nm; });
+      }
+      while (exists(clean)) {
+        var dot = base.lastIndexOf(".");
+        clean = (dot > 0 ? base.slice(0, dot) : base) + "-" + (++n) + (dot > 0 ? base.slice(dot) : "");
+      }
+      pendingFiles.push({ file: f, clean: clean });
+    });
+    e.target.value = "";
+    render();
+  });
+
+  function readAsB64(file){
+    return new Promise(function(res, rej){
+      var r = new FileReader();
+      r.onload = function(){ res(String(r.result).split(",")[1]); };
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+  }
+
+  $("publishBtn").addEventListener("click", function(){
+    if (!pendingFiles.length && !dirtyFlag()) { setStatus("err", "Nothing to publish yet."); return; }
+    if (!confirm("Publish to the live website? The site rebuilds and goes live in a few minutes.")) return;
+    setStatus("busy", "Publishing… keep this page open.");
+    $("publishBtn").disabled = true;
+
+    var deletedSrcs = itemsToDelete.slice();
+    var finalItems = [];
+
+    var chain = gh("/git/ref/heads/main").then(function(ref){
+      var baseCommit = ref.object.sha;
+      return gh("/git/commits/" + baseCommit).then(function(c){ return { baseCommit: baseCommit, baseTree: c.tree.sha }; });
+    });
+
+    chain = chain.then(function(base){
+      var blobJobs = pendingFiles.map(function(p){
+        return readAsB64(p.file).then(function(b64){
+          return gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: b64, encoding: "base64" }) });
+        }).then(function(blob){
+          p.blobSha = blob.sha;
+          finalItems.push({ src: "/the-work/" + p.clean, name: p.clean.replace(/[-_]+/g, " ").replace(/\.[a-z0-9]+$/i, "") });
+        });
+      });
+      return Promise.all(blobJobs).then(function(){ return base; });
+    });
+
+    chain = chain.then(function(base){
+      items.forEach(function(it){ finalItems.push({ src: it.src, name: it.name || "" }); });
+      var jsonText = JSON.stringify({ items: finalItems }, null, 2) + "\n";
+      var tree = pendingFiles.map(function(p){
+        return { path: MEDIA_DIR + p.clean, mode: "100644", type: "blob", sha: p.blobSha };
+      });
+      return gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: btoa(unescape(encodeURIComponent(jsonText))), encoding: "base64" }) })
+        .then(function(jsonBlob){
+          tree.push({ path: JSON_PATH, mode: "100644", type: "blob", sha: jsonBlob.sha });
+          deletedSrcs.forEach(function(src){
+            var rel = src.replace(/^\//, "");
+            tree.push({ path: "public/" + rel, mode: "100644", type: "blob", sha: null });
+          });
+          return gh("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: base.baseTree, tree: tree }) })
+            .then(function(t){ return { base: base, treeSha: t.sha }; });
+        });
+    });
+
+    chain = chain.then(function(r){
+      return gh("/git/commits", { method: "POST", body: JSON.stringify({
+        message: "The Work: update gallery (" + new Date().toISOString().slice(0, 10) + ")",
+        tree: r.treeSha, parents: [r.base.baseCommit]
+      })}).then(function(c){ return { base: r.base, commitSha: c.sha }; });
+    });
+
+    chain = chain.then(function(r){
+      var branch = "the-work-" + Date.now();
+      return gh("/git/refs", { method: "POST", body: JSON.stringify({ ref: "refs/heads/" + branch, sha: r.commitSha }) })
+        .then(function(){ return branch; });
+    });
+
+    chain = chain.then(function(branch){
+      return gh("/pulls", { method: "POST", body: JSON.stringify({
+        title: "The Work gallery update", head: branch, base: "main", body: "Published from the The Work manager page."
+      })}).then(function(pr){ return pr.number; });
+    });
+
+    chain = chain.then(function(num){
+      return gh("/pulls/" + num + "/merge", { method: "PUT", body: JSON.stringify({ merge_method: "squash" }) })
+        .then(function(){ return num; })
+        .catch(function(){ return num; }); // merge may need a moment; PR is still fine
+    });
+
+    chain.then(function(num){
+      setStatus("ok", "Published! Your changes are going live — give the website a few minutes, then check The Work page.");
+      itemsToDelete = [];
+      loadItems();
+    }).catch(function(e){
+      setStatus("err", "Something went wrong: " + e.message);
+    }).then(function(){ $("publishBtn").disabled = false; });
+  });
+
+  var itemsToDelete = [];
+  // track deletions: intercept via render's Remove for old items
+  var _origRender = render;
+
+  $("saveTokenBtn").addEventListener("click", function(){
+    var v = $("tokenInput").value.trim();
+    if (!v) { alert("Paste the token first."); return; }
+    token = v;
+    try { localStorage.setItem(TOKEN_KEY, v); } catch(e){}
+    $("tokenInput").value = "";
+    enterManage();
+  });
+
+  $("forgetBtn").addEventListener("click", function(){
+    if (!confirm("Remove the saved key from this phone?")) return;
+    try { localStorage.removeItem(TOKEN_KEY); } catch(e){}
+    token = null;
+    location.reload();
+  });
+
+  function dirtyFlag(){ return pendingFiles.length > 0 || itemsToDelete.length > 0 || itemsChanged; }
+  var itemsChanged = false;
+
+  function enterManage(){
+    $("setupCard").classList.add("hidden");
+    $("manageCard").classList.remove("hidden");
+    loadItems();
+  }
+
+  // wrap render to flag reorder/rename as dirty
+  render = function(){
+    itemsChanged = true;
+    _origRender();
+  };
+
+  try { token = localStorage.getItem(TOKEN_KEY) || null; } catch(e){}
+  if (token) enterManage();
+})();
+</script>
+</body>
+</html>

@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/faq",
     "/guides",
     "/find-my-lawn-plan",
+    "/the-work",
     "/privacy",
     "/terms",
   ];
